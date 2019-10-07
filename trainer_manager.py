@@ -35,11 +35,10 @@ class TrainerManager:
 
     def get_stats(self):
         """ """
-        TrainerStats()
         pass
 
     @staticmethod
     def _abstracttrainer_validator(arg):
         """ validator for AbstractTrainer input """
         if not isinstance(arg, AbstractTrainer):
-            return ValueError('Incorrect value: input should be a AbstractTrainer')
+            return ValueError('Incorrect value: input should be a AbstractTrain')

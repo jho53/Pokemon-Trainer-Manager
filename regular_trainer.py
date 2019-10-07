@@ -1,36 +1,36 @@
-class TrainerStats:
-    """ Trainer stats class """
+from abstract_trainer import AbstractTrainer
 
-    def __init__(self, num_trainers, num_gym_leader, num_regular_trainer, num_movement_type, num_have_partner, num_per_location):
-        """ Constructor for trainer stats """
-        self._num_trainers = num_trainers
-        self._num_gym_leaders = num_gym_leader
-        self._num_regular_trainer = num_regular_trainer
-        self._num_movement_type = num_movement_type
-        self._num_have_partner = num_have_partner
-        self._num_per_location = num_per_location
 
-    def get_num_trainers(self):
+class RegularTrainer(AbstractTrainer):
+    """ RegularTrainer class (derived from AbstractTrainer) """
+
+    TRAINER_TYPE = 'Regular Trainer'
+    MOVEMENT_TYPE = ""
+
+    def __init___(self, id, pokemon_team, trainer_class, pokecoins, location, movement, phone_num, have_partner):
+        """ Constructor for RegularTrainer """
+        self._id = id
+        self._pokemon_team = pokemon_team
+        self._trainer_class = trainer_class
+        self._pokecoins = pokecoins
+        self._location = location
+        self._movement = movement
+        self._phone_num = phone_num
+        self._have_partner = have_partner
+
+    def get_type(self):
         """ """
         pass
 
-    def get_num_gym_leader(self):
+    def get_movement(self):
         """ """
         pass
 
-    def get_num_regular_trainer(self):
+    def get_phone_number(self):
         """ """
         pass
 
-    def get_num_movement_type(self):
-        """ """
-        pass
-
-    def get_num_trainer_have_partner(self):
-        """ """
-        pass
-
-    def get_num_per_location(self):
+    def have_partner(self):
         """ """
         pass
 
