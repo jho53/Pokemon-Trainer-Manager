@@ -64,9 +64,3 @@ class AbstractTrainer:
         """ validator for boolean input """
         if arg is None or type(arg) != bool:
             return ValueError('Incorrect value: input should be boolean')
-
-    @staticmethod
-    def _datetime_validator(arg):
-        """ validator for datetime input """
-        if not isinstance(arg, datetime):
-            return ValueError('Incorrect value: input should be in datetime format')
