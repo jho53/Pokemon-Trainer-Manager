@@ -7,7 +7,7 @@ class GymLeader(AbstractTrainer):
     TRAINER_TYPE = 'Gym Leader'
 
     def __init___(self, id, pokemon_team, trainer_class, pokecoins, location, badge, element, prize):
-        """ Constructor for GymLeader """
+        """ Constructor - Initializes the main attributes of GymLeader """
         self._id = id
         self._pokemon_team = pokemon_team
         self._trainer_class = trainer_class
@@ -18,20 +18,20 @@ class GymLeader(AbstractTrainer):
         self._prize = prize
 
     def get_type(self):
-        """ """
-        pass
+        """ Returns the type """
+        return GymLeader.TRAINER_TYPE
 
     def get_badge(self):
-        """ """
-        pass
+        """ Returns the badge """
+        return self._badge
 
     def get_element(self):
-        """ """
-        pass
+        """ Returns the element """
+        return self._element
 
     def get_prize(self):
-        """ """
-        pass
+        """ Returns the prize """
+        return self._prize
 
     @staticmethod
     def _str_validator(arg):
