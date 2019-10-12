@@ -5,7 +5,7 @@ class RegularTrainer(AbstractTrainer):
     """ RegularTrainer class (derived from AbstractTrainer) """
 
     TRAINER_TYPE = 'Regular Trainer'
-    MOVEMENT_TYPE = {
+    MOVEMENT_TYPE_DICT = {
         'On Bike': 2.0,
         'Swimming': 1.5,
         'Walking': 1.0,
@@ -16,25 +16,26 @@ class RegularTrainer(AbstractTrainer):
                   movement_type, phone_num, have_partner):
         """ Constructor for RegularTrainer """
         super().__init__(id, name, pokemon_team, trainer_class, pokecoins, location)
+        RegularTrainer._str_validator(movement_type)
         self._movement_type = movement_type
+        RegularTrainer._boolean_validator(phone_num)
         self._phone_num = phone_num
+        RegularTrainer._boolean_validator(have_partner)
         self._have_partner = have_partner
 
     def get_type(self):
         """ Return the trainer type """
         return RegularTrainer.TRAINER_TYPE
 
-    def get_movement(self):
-        """ Return the movement type """
-        return RegularTrainer.MOVEMENT_TYPE
-
     def get_movement_speed(self):
-        """ """
-        pass
+        """ Return the movement speed """
+        movement_type = self._movement_type
+        movement_speed = RegularTrainer.MOVEMENT_TYPE_DICT.get(movement_type)
+        return movement_speed
 
     def have_phone_number(self):
-        """ """
-        pass
+        """ Returns True if trainer has a phone number """
+        return self._phone_num
 
     def have_partner(self):
         """ Return True if trainer has partner """
