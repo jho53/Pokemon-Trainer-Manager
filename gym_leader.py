@@ -6,7 +6,8 @@ class GymLeader(AbstractTrainer):
 
     TRAINER_TYPE = 'Gym Leader'
 
-    def __init___(self, id, pokemon_team, trainer_class, pokecoins, location, badge, element, prize):
+    def __init___(self, id, pokemon_team, trainer_class, pokecoins, location,
+                  badge, element, prize):
         """ Constructor for GymLeader """
         self._id = id
         self._pokemon_team = pokemon_team
@@ -35,24 +36,6 @@ class GymLeader(AbstractTrainer):
 
     @staticmethod
     def _str_validator(arg):
-        """ validator for string input """
+        """ Validator for string input """
         if arg is None or type(arg) != str:
             return ValueError('Incorrect value: input should be a string')
-
-    @staticmethod
-    def _int_validator(arg):
-        """ validator for integer input """
-        if arg is None or type(arg) != int:
-            return ValueError('Incorrect value: input should an int')
-
-    @staticmethod
-    def _float_validator(arg):
-        """ validator for float input """
-        if arg is None or type(arg) != float:
-            return ValueError('Incorrect value: input should be a float')
-
-    @staticmethod
-    def _boolean_validator(arg):
-        """ validator for boolean input """
-        if arg is None or type(arg) != bool:
-            return ValueError('Incorrect value: input should be boolean')
