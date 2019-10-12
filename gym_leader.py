@@ -18,7 +18,7 @@ class GymLeader(AbstractTrainer):
         self._prize = prize
 
     def get_type(self):
-        """ Returns the type """
+        """ Returns the trainer type """
         return GymLeader.TRAINER_TYPE
 
     def get_badge(self):

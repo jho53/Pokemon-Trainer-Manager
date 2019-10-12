@@ -5,6 +5,7 @@ class RegularTrainer(AbstractTrainer):
     """ RegularTrainer class (derived from AbstractTrainer) """
 
     TRAINER_TYPE = 'Regular Trainer'
+    # FIXME: 
     MOVEMENT_TYPE = ""
 
     def __init___(self, id, pokemon_team, trainer_class, pokecoins, location, movement, phone_num, have_partner):
