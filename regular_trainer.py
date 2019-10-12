@@ -19,20 +19,20 @@ class RegularTrainer(AbstractTrainer):
         self._have_partner = have_partner
 
     def get_type(self):
-        """ """
-        pass
+        """ Return the trainer type """
+        return RegularTrainer.TRAINER_TYPE
 
     def get_movement(self):
-        """ """
-        pass
+        """ Return the movement type """
+        return RegularTrainer.MOVEMENT_TYPE
 
     def get_phone_number(self):
-        """ """
-        pass
+        """ Return the trainer phone number """
+        return self._phone_num
 
     def have_partner(self):
-        """ """
-        pass
+        """ Return True if trainer has partner """
+        return self._have_partner
 
     @staticmethod
     def _str_validator(arg):
