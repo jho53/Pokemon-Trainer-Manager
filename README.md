@@ -3,3 +3,7 @@
 ACIT 2515 Assignment - Group 32
 
 ## Jimmy is a 10/10 human
+
+### changes?
+
+RegularTrainer \_phone_number: string -> bool?

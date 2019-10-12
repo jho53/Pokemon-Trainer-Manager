@@ -21,24 +21,24 @@ class RegularTrainer(AbstractTrainer):
         self._have_partner = have_partner
 
     def get_type(self):
-        """ """
-        pass
+        """ Return the trainer type """
+        return RegularTrainer.TRAINER_TYPE
 
-    def get_movement_type(self):
-        ''' '''
-        pass
-
+    def get_movement(self):
+        """ Return the movement type """
+        return RegularTrainer.MOVEMENT_TYPE
+    
     def get_movement_speed(self):
         """ """
         pass
-
+      
     def have_phone_number(self):
         """ """
         pass
 
     def have_partner(self):
-        """ """
-        pass
+        """ Return True if trainer has partner """
+        return self._have_partner
 
     @staticmethod
     def _str_validator(arg):
