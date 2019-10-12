@@ -3,44 +3,56 @@ class AbstractTrainer:
 
     def __init__(self, id, name, pokemon_team, trainer_class, pokecoins, location):
         """ Constructor for AbstractTrainer """
+        AbstractTrainer._int_validator(id)
         self._id = id
-        self.name = name
+        AbstractTrainer._str_validator(name)
+        self._name = name
+        AbstractTrainer._pokemon_team_validator(pokemon_team)
         self._pokemon_team = pokemon_team
+        AbstractTrainer._str_validator(trainer_class)
         self._trainer_class = trainer_class
+        AbstractTrainer._int_validator(pokecoins)
         self._pokecoins = pokecoins
+        AbstractTrainer._str_validator(location)
         self._location = location
 
     def get_type(self):
         """ Abstract method, returns error msg when called in abstract class """
-        pass
+        raise NotImplementedError("Child class must implement method.")
+
+    def get_name(self):
+        """ Returns the trainer name """
+        return self._name
 
     def get_trainer_class(self):
         """ Returns trainer class """
-        pass
+        return self._trainer_class
 
     def get_location(self):
         """ Returns location """
-        pass
+        return self._location
 
     def get_pokecoins(self):
         """ Returns total amount of pokecoins """
-        pass
+        return self._pokecoins
 
     def set_id(self, id):
         """ Sets ID for current trainer """
-        pass
+        AbstractTrainer._int_validator(id)
+        self._id = id
 
     def _get_id(self):
         """ Returns ID for current trainer """
-        pass
+        return self._id
 
     def _set_pokemon_team(self, pokemon_team):
         """ Sets pokemon team for current trainer """
-        pass
+        AbstractTrainer._pokemon_team_validator(pokemon_team)
+        self._pokemon_team = pokemon_team
 
     def _get_pokemon_team(self):
         """ Returns pokemon team for current trainer """
-        pass
+        return self._pokemon_team
 
     @staticmethod
     def _str_validator(arg):
