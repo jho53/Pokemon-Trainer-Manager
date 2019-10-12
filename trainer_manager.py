@@ -6,8 +6,7 @@ class TrainerManager:
     """ TrainerManager class """
 
     def __init__(self):
-        """ constructor for trainer manager """
-        self._blanktitties = []
+        """ Constructor for TrainerManager """
 
     def add(self):
         """ """
@@ -41,4 +40,5 @@ class TrainerManager:
     def _abstracttrainer_validator(arg):
         """ validator for AbstractTrainer input """
         if not isinstance(arg, AbstractTrainer):
-            return ValueError('Incorrect value: input should be a AbstractTrain')
+            return ValueError(
+                'Incorrect value: input should be a AbstractTrainer')
