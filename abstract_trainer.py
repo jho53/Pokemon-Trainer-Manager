@@ -1,9 +1,10 @@
 class AbstractTrainer:
     """ Abstract Trainer class """
 
-    def __init__(self, id, pokemon_team, trainer_class, pokecoins, location):
+    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins, location):
         """ Constructor for AbstractTrainer """
         self._id = id
+        self.name = name
         self._pokemon_team = pokemon_team
         self._trainer_class = trainer_class
         self._pokecoins = pokecoins

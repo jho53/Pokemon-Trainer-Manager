@@ -5,15 +5,12 @@ class GymLeader(AbstractTrainer):
     """ GymLeader class (derived from AbstractTrainer) """
 
     TRAINER_TYPE = 'Gym Leader'
+    TRAINER_CLASS = 'Gym Leader'
 
-    def __init___(self, id, pokemon_team, trainer_class, pokecoins, location,
+    def __init___(self, id, name, pokemon_team, trainer_class, pokecoins, location,
                   badge, element, prize):
         """ Constructor for GymLeader """
-        self._id = id
-        self._pokemon_team = pokemon_team
-        self._trainer_class = trainer_class
-        self._pokecoins = pokecoins
-        self._location = location
+        super().__init__(id, name, pokemon_team, GymLeader.TRAINER_CLASS, pokecoins, location)
         self._badge = badge
         self._element = element
         self._prize = prize

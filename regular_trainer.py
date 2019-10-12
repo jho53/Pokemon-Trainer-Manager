@@ -5,17 +5,18 @@ class RegularTrainer(AbstractTrainer):
     """ RegularTrainer class (derived from AbstractTrainer) """
 
     TRAINER_TYPE = 'Regular Trainer'
-    MOVEMENT_TYPE = ""
+    MOVEMENT_TYPE = {
+        'On Bike': 2.0,
+        'Swimming': 1.5,
+        'Walking': 1.0,
+        'Running': 1.25
+    }
 
-    def __init___(self, id, pokemon_team, trainer_class, pokecoins, location,
-                  movement, phone_num, have_partner):
+    def __init___(self, id, name, pokemon_team, trainer_class, pokecoins, location,
+                  movement_type, phone_num, have_partner):
         """ Constructor for RegularTrainer """
-        self._id = id
-        self._pokemon_team = pokemon_team
-        self._trainer_class = trainer_class
-        self._pokecoins = pokecoins
-        self._location = location
-        self._movement = movement
+        super().__init__(id, name, pokemon_team, trainer_class, pokecoins, location)
+        self._movement_type = movement_type
         self._phone_num = phone_num
         self._have_partner = have_partner
 
@@ -23,7 +24,11 @@ class RegularTrainer(AbstractTrainer):
         """ """
         pass
 
-    def get_movement(self):
+    def get_movement_type(self):
+        ''' '''
+        pass
+
+    def get_movement_speed(self):
         """ """
         pass
 
