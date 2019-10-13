@@ -1,13 +1,13 @@
 from unittest import TestCase
 from gym_leader import GymLeader
-
+from abstract_trainer import AbstractTrainer
+import unittest
 import inspect
 
 
 class TestGymLeader(TestCase):
     ''' Unit Tests for Gym Leader Class '''
     # Test parameters
-    ID_PARAMETER = 0
     NAME_PARAMETER = 'Brock'
     POKEMON_TEAM_PARAMETER = {
         'Golem': {55},
@@ -19,7 +19,7 @@ class TestGymLeader(TestCase):
     }
     LOCATION_PARAMETER = 'Kanto'
     POKECOIN_PARAMETER = 6840
-    BADGE_PARAMETER = 'Boulder'
+    BADGE_PARAMETER = 'Boulder Badge'
     ELEMENT_PARAMETER = 'Rock'
     PRIZE_PARAMETER = 'HM10'
 
@@ -30,8 +30,7 @@ class TestGymLeader(TestCase):
     def setUp(self):
         '''Sets up test GymLeader class'''
         self.logGymLeader()
-        self.gym_leader = GymLeader(TestGymLeader.ID_PARAMETER,
-                                    TestGymLeader.NAME_PARAMETER,
+        self.gym_leader = GymLeader(TestGymLeader.NAME_PARAMETER,
                                     TestGymLeader.POKEMON_TEAM_PARAMETER,
                                     GymLeader.TRAINER_CLASS,
                                     TestGymLeader.POKECOIN_PARAMETER,
@@ -54,23 +53,21 @@ class TestGymLeader(TestCase):
 
     def test_valid_init(self):
         '''Tests valid parameters for GymLeader constructor'''
-        self.gym_leader = GymLeader(TestGymLeader.ID_PARAMETER,
-                                    TestGymLeader.NAME_PARAMETER,
+        self.gym_leader = GymLeader(TestGymLeader.NAME_PARAMETER,
                                     TestGymLeader.POKEMON_TEAM_PARAMETER,
                                     GymLeader.TRAINER_CLASS,
                                     TestGymLeader.POKECOIN_PARAMETER,
                                     TestGymLeader.LOCATION_PARAMETER,
                                     TestGymLeader.BADGE_PARAMETER,
                                     TestGymLeader.ELEMENT_PARAMETER,
-                                    TestGymLeader.PRIZE_PARAMETER
-                                    )
+                                    TestGymLeader.PRIZE_PARAMETER)
         self.assertIsNotNone(self.gym_leader)
 
     def test_invalid_parameter_init(self):
         '''Tests invalid parameters for GymLeader constructor'''
         # Testing Badge parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -80,7 +77,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -90,7 +87,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -102,7 +99,7 @@ class TestGymLeader(TestCase):
 
         # Testing Element Parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -112,7 +109,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.EMPTY_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -122,7 +119,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.UNDEFINED_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -134,7 +131,7 @@ class TestGymLeader(TestCase):
 
         # Testing Prize Parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -144,7 +141,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.EMPTY_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -154,7 +151,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.UNDEFINED_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               TestGymLeader.ID_PARAMETER,
+                               GymLeader,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
                                GymLeader.TRAINER_CLASS,
@@ -174,8 +171,12 @@ class TestGymLeader(TestCase):
 
     def test_get_element(self):
         '''Tests if get_element() returns correct value'''
-        self.assertEqual('Rock Type', self.gym_leader.get_element())
+        self.assertEqual('Rock', self.gym_leader.get_element())
 
     def test_get_prize(self):
         '''Tests if get_prize() returns correct value'''
         self.assertEqual('HM10', self.gym_leader.get_prize())
+
+
+if __name__ == "__main__":
+    unittest.main()
