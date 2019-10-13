@@ -118,6 +118,7 @@ class TestRegularTrainer(TestCase):
                                TestRegularTrainer.ID_PARAMETER,
                                TestRegularTrainer.NAME_PARAMETER,
                                TestRegularTrainer.POKEMON_TEAM_PARAMETER,
+                               TestRegularTrainer.TRAINER_CLASS_PARAMETER,
                                TestRegularTrainer.LOCATION_PARAMETER,
                                TestRegularTrainer.POKECOIN_PARAMETER,
                                TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
@@ -128,6 +129,7 @@ class TestRegularTrainer(TestCase):
                                TestRegularTrainer.ID_PARAMETER,
                                TestRegularTrainer.NAME_PARAMETER,
                                TestRegularTrainer.POKEMON_TEAM_PARAMETER,
+                               TestRegularTrainer.TRAINER_CLASS_PARAMETER,
                                TestRegularTrainer.LOCATION_PARAMETER,
                                TestRegularTrainer.POKECOIN_PARAMETER,
                                TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
@@ -140,6 +142,7 @@ class TestRegularTrainer(TestCase):
                                TestRegularTrainer.ID_PARAMETER,
                                TestRegularTrainer.NAME_PARAMETER,
                                TestRegularTrainer.POKEMON_TEAM_PARAMETER,
+                               TestRegularTrainer.TRAINER_CLASS_PARAMETER,
                                TestRegularTrainer.LOCATION_PARAMETER,
                                TestRegularTrainer.POKECOIN_PARAMETER,
                                TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
@@ -150,6 +153,7 @@ class TestRegularTrainer(TestCase):
                                TestRegularTrainer.ID_PARAMETER,
                                TestRegularTrainer.NAME_PARAMETER,
                                TestRegularTrainer.POKEMON_TEAM_PARAMETER,
+                               TestRegularTrainer.TRAINER_CLASS_PARAMETER,
                                TestRegularTrainer.LOCATION_PARAMETER,
                                TestRegularTrainer.POKECOIN_PARAMETER,
                                TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
@@ -159,11 +163,6 @@ class TestRegularTrainer(TestCase):
     def test_get_type(self):
         '''Tests if get_type() returns correct value'''
         self.assertEqual('Regular Trainer', self.regular_trainer.get_type())
-
-    # FIXME: RegularTrainer doesn't have method get_movement_type()
-    # def test_get_movement_type(self):
-    #     '''Tests if get_movement_type returns correct value'''
-    #     self.assertEqual('Walking', self.regular_trainer.get_movement_type())
 
     def test_get_movement_speed(self):
         '''Tests if get_movement_speed returns correct value'''

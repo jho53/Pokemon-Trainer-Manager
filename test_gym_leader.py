@@ -71,6 +71,7 @@ class TestGymLeader(TestCase):
         '''Tests invalid parameters for GymLeader constructor'''
         # Testing Badge parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -81,6 +82,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -91,6 +93,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -103,6 +106,7 @@ class TestGymLeader(TestCase):
 
         # Testing Element Parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -113,6 +117,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.EMPTY_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -123,6 +128,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.UNDEFINED_PARAMETER,
                                TestGymLeader.PRIZE_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -135,6 +141,7 @@ class TestGymLeader(TestCase):
 
         # Testing Prize Parameter
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -145,6 +152,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.EMPTY_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,
@@ -155,6 +163,7 @@ class TestGymLeader(TestCase):
                                TestGymLeader.ELEMENT_PARAMETER,
                                TestGymLeader.UNDEFINED_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
+                               GymLeader,
                                TestGymLeader.ID_PARAMETER,
                                TestGymLeader.NAME_PARAMETER,
                                TestGymLeader.POKEMON_TEAM_PARAMETER,

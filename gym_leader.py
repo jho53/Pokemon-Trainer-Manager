@@ -37,5 +37,5 @@ class GymLeader(AbstractTrainer):
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
-        if arg is None or type(arg) != str:
-            return ValueError('Incorrect value: input should be a string')
+        if arg is None or arg == '' or type(arg) != str:
+            raise ValueError('Incorrect value: input should be a string')
