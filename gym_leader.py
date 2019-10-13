@@ -7,10 +7,11 @@ class GymLeader(AbstractTrainer):
     TRAINER_TYPE = 'Gym Leader'
     TRAINER_CLASS = 'Gym Leader'
 
-    def __init___(self, id, name, pokemon_team, trainer_class, pokecoins, location, badge, element, prize):
+    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins, location, badge, element, prize):
         """ Constructor - Initializes the main attributes of GymLeader """
         super().__init__(id, name, pokemon_team, GymLeader.TRAINER_CLASS, pokecoins, location)
         GymLeader._str_validator(badge)
+
         self._badge = badge
         GymLeader._str_validator(element)
         self._element = element
