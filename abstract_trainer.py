@@ -1,7 +1,7 @@
 class AbstractTrainer:
     """ Abstract Trainer class """
 
-    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins, location):
+    def __init__(self, name, pokemon_team, trainer_class, pokecoins, location):
         """ Constructor for AbstractTrainer """
         AbstractTrainer._int_validator(id)
         self._id = id
@@ -36,7 +36,7 @@ class AbstractTrainer:
         """ Returns total amount of pokecoins """
         return self._pokecoins
 
-    def set_id(self, id):
+    def _set_id(self, id):
         """ Sets ID for current trainer """
         AbstractTrainer._int_validator(id)
         self._id = id
@@ -45,12 +45,7 @@ class AbstractTrainer:
         """ Returns ID for current trainer """
         return self._id
 
-    def _set_pokemon_team(self, pokemon_team):
-        """ Sets pokemon team for current trainer """
-        AbstractTrainer._pokemon_team_validator(pokemon_team)
-        self._pokemon_team = pokemon_team
-
-    def _get_pokemon_team(self):
+    def get_pokemon_team(self):
         """ Returns pokemon team for current trainer """
         return self._pokemon_team
 
@@ -70,3 +65,5 @@ class AbstractTrainer:
     def _pokemon_team_validator(arg):
         ''' Validator pokemon team '''
         pass
+
+    id = property(_get_id, _set_id)

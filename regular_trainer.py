@@ -12,10 +12,10 @@ class RegularTrainer(AbstractTrainer):
         'Running': 1.25
     }
 
-    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins,
+    def __init__(self, name, pokemon_team, trainer_class, pokecoins,
                  location, movement_type, phone_num, have_partner):
         """ Constructor for RegularTrainer """
-        super().__init__(id, name, pokemon_team, trainer_class, pokecoins, location)
+        super().__init__(name, pokemon_team, trainer_class, pokecoins, location)
         RegularTrainer._str_validator(movement_type)
         if movement_type not in RegularTrainer.MOVEMENT_TYPE_DICT:
             raise ValueError('Incorrect value: no match found in database')
