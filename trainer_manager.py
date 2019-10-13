@@ -63,6 +63,7 @@ class TrainerManager(AbstractTrainer):
 
     def get_stats(self):
         """ Gets trainer stats """
+        pass
 
     @staticmethod
     def _abstracttrainer_validator(trainer):

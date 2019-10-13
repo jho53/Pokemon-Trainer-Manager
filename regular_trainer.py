@@ -29,6 +29,11 @@ class RegularTrainer(AbstractTrainer):
         """ Return the trainer type """
         return RegularTrainer.TRAINER_TYPE
 
+    # FIXME: add abstract method to UML
+    def get_details(self):
+        """ Return the trainer details """
+        raise NotImplementedError("Child class must implement method.")
+
     def get_movement_speed(self):
         """ Return the movement speed """
         movement_type = self._movement_type
