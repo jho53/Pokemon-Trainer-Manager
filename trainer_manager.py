@@ -47,7 +47,7 @@ class TrainerManager(AbstractTrainer):
                 trainer_query.append(trainer)
         return trainer_query
 
-    # @FIXME FINISH UPDATE AND DELETE FUNCTIONS
+    # @FIXME FINISH UPDATE AND DELETE + GET_STATS FUNCTIONS
 
     def update(self, AbstractTrainer):
         """ Updates trainer object """
@@ -63,7 +63,6 @@ class TrainerManager(AbstractTrainer):
 
     def get_stats(self):
         """ Gets trainer stats """
-        pass
 
     @staticmethod
     def _abstracttrainer_validator(trainer):
