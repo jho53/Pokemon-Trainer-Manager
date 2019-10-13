@@ -17,7 +17,6 @@ class TrainerManager(AbstractTrainer):
         TrainerManager._abstracttrainer_validator(AbstractTrainer)
         self._trainers.append(AbstractTrainer)
 
-    # FIXME: Should update UML to match method name
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
         TrainerManager._int_validator(id)
@@ -70,14 +69,12 @@ class TrainerManager(AbstractTrainer):
             return ValueError(
                 'Incorrect value: input should be a AbstractTrainer')
 
-    # FIXME: add the validator to UML
     @staticmethod
     def _int_validator(arg):
         """ Validator for integer input """
         if arg is None or type(arg) != int:
             return ValueError('Incorrect value: input should an int')
 
-    # FIXME: add the validator to UML
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
