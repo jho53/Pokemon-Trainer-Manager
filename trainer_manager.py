@@ -47,12 +47,13 @@ class TrainerManager(AbstractTrainer):
                 trainer_query.append(trainer)
         return trainer_query
 
-    # @FIXME FINISH UPDATE AND DELETE + GET_STATS FUNCTIONS
-
     def update(self, AbstractTrainer):
         """ Updates trainer object """
         TrainerManager._abstracttrainer_validator(AbstractTrainer)
-        pass
+        update_object_id = AbstractTrainer._get_id()
+        for trainer in self._trainers:
+            if trainer._get_id == update_object_id:
+                trainer = AbstractTrainer
 
     def delete(self, id):
         """ Deletes trainer from trainers """
@@ -61,9 +62,23 @@ class TrainerManager(AbstractTrainer):
             if id == trainer._get_id():
                 self._trainers.remove(trainer)
 
+    # FIXME: need to get number of trainers per location
     def get_stats(self):
-        """ Gets trainer stats """
-        pass
+        """ Fetches detailed trainer stats """
+        _num_total_trainers = 0
+        _num_gym_leaders = 0
+        _num_regular_trainers = 0
+        _num_trainers_with_partner = 0
+        _num_trainer_per_location = 0
+        for trainer in self._trainers:
+            _num_total_trainers += 1
+
+            if trainer.get_type() == 'Regular Trainer':
+                _num_regular_trainers += 1
+                if trainer.have_partner() is True:
+                    _num_trainers_with_partner += 1
+            else:
+                _num_gym_leaders += 1
 
     @staticmethod
     def _abstracttrainer_validator(trainer):
