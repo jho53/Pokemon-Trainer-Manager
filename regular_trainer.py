@@ -12,8 +12,8 @@ class RegularTrainer(AbstractTrainer):
         'Running': 1.25
     }
 
-    def __init___(self, id, name, pokemon_team, trainer_class, pokecoins, location,
-                  movement_type, phone_num, have_partner):
+    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins,
+                 location, movement_type, phone_num, have_partner):
         """ Constructor for RegularTrainer """
         super().__init__(id, name, pokemon_team, trainer_class, pokecoins, location)
         RegularTrainer._str_validator(movement_type)
@@ -33,6 +33,12 @@ class RegularTrainer(AbstractTrainer):
         movement_speed = RegularTrainer.MOVEMENT_TYPE_DICT.get(movement_type)
         return movement_speed
 
+    # FIXME: add method to UML
+    def set_movement_speed(self, movement_type):
+        """ Set the movement speed """
+        RegularTrainer._str_validator(movement_type)
+        self._movement_type = movement_type
+
     def have_phone_number(self):
         """ Returns True if trainer has a phone number """
         return self._phone_num
@@ -46,9 +52,13 @@ class RegularTrainer(AbstractTrainer):
         """ Validator for string input """
         if arg is None or type(arg) != str:
             return ValueError('Incorrect value: input should be a string')
+        if arg == '':
+            return ValueError('Incorrect value: input should be a string')
 
     @staticmethod
     def _boolean_validator(arg):
         """ Validator for boolean input """
         if arg is None or type(arg) != bool:
             return ValueError('Incorrect value: input should be boolean')
+        if arg == '':
+            return ValueError('Incorrect value: input should be a string')
