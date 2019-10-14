@@ -21,7 +21,6 @@ class GymLeader(AbstractTrainer):
         """ Returns the trainer type """
         return GymLeader.TRAINER_TYPE
 
-    # FIXME: add abstract method to UML
     def get_details(self):
         """ Return the trainer details """
         details = []

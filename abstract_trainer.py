@@ -20,7 +20,6 @@ class AbstractTrainer:
         """ Abstract method, returns error msg when called in abstract class """
         raise NotImplementedError("Child class must implement method.")
 
-    # FIXME: add abstract method to UML
     def get_details(self):
         """ Abstract method, returns error msg when called in abstract class """
         raise NotImplementedError("Child class must implement method.")
