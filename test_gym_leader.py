@@ -10,12 +10,12 @@ class TestGymLeader(TestCase):
     # Test parameters
     NAME_PARAMETER = 'Brock'
     POKEMON_TEAM_PARAMETER = {
-        'Golem': {55},
-        'Rellcanth': {54},
-        'Omastar': {56},
-        'Kabutops': {55},
-        'Onix': {61},
-        'Ramparods': {57}
+        'Golem': 55,
+        'Rellcanth': 54,
+        'Omastar': 56,
+        'Kabutops': 55,
+        'Onix': 61,
+        'Ramparods': 57
     }
     LOCATION_PARAMETER = 'Kanto'
     POKECOIN_PARAMETER = 6840

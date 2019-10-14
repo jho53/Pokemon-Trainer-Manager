@@ -11,18 +11,18 @@ class TestTrainerManager(TestCase):
     ''' Unit Tests for TrainerManager Class '''
     # Gym Leader Parameters
     VALID_GYMLEADER = GymLeader('Brock', {
-        'Golem': {55},
-        'Rellcanth': {54},
-        'Omastar': {56},
-        'Kabutops': {55},
-        'Onix': {61},
-        'Ramparods': {57}
+        'Golem': 55,
+        'Rellcanth': 54,
+        'Omastar': 56,
+        'Kabutops': 55,
+        'Onix': 61,
+        'Ramparods': 57
     }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock', 'HM10')
 
     # Regular Trainer Parameters
     VALID_TRAINER = RegularTrainer('Tom', {
-        'Zubat': {21},
-        'Ekans': {23}
+        'Zubat': 21,
+        'Ekans': 23
     }, 'Team Rocket Grunt', 540, 'Johto', 'Walking', False, True)
 
     # General Parameters

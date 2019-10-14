@@ -9,8 +9,8 @@ class TestRegularTrainer(TestCase):
     # Test parameters
     NAME_PARAMETER = 'Tom'
     POKEMON_TEAM_PARAMETER = {
-        'Zubat': {21},
-        'Ekans': {23}
+        'Zubat': 21,
+        'Ekans': 23
     }
     TRAINER_CLASS_PARAMETER = 'Team Rocket Grunt'
     LOCATION_PARAMETER = 'Johto'
