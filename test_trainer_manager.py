@@ -2,6 +2,7 @@ from unittest import TestCase
 from trainer_manager import TrainerManager
 from gym_leader import GymLeader
 from regular_trainer import RegularTrainer
+from trainer_stats import TrainerStats
 
 import unittest
 import inspect
@@ -197,6 +198,32 @@ class TestTrainerManager(TestCase):
         self.assertRaisesRegex(ValueError,
                                'Incorrect value: input should be an int',
                                self.trainer_manager.delete, None)
+
+    def test_get_stats(self):
+        '''Tests if TrainerManager.get_stats() displays correct output'''
+        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
+        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
+        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
+        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
+        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
+        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
+        self.assertTrue(isinstance(
+            self.trainer_manager.get_stats(), TrainerStats))
+
+        self.assertEqual(
+            3, self.trainer_manager.get_stats().get_num_regular_trainer())
+        self.assertEqual(
+            3, self.trainer_manager.get_stats().get_num_gym_leader())
+        self.assertEqual(
+            6, self.trainer_manager.get_stats().get_num_trainers())
+        self.assertEqual(
+            3, self.trainer_manager.get_stats().get_num_trainer_have_partner())
+        self.assertEqual(
+            dict, type(self.trainer_manager.get_stats().get_num_per_location()))
+        self.assertEqual(
+            {'Johto': 3, 'Kanto': 3}, self.trainer_manager.get_stats(
+            ).get_num_per_location()
+        )
 
 
 if __name__ == "__main__":

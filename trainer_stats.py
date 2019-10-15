@@ -2,7 +2,7 @@ class TrainerStats:
     """ Trainer stats class """
 
     def __init__(self, num_trainers, num_gym_leader, num_regular_trainer,
-                 num_movement_type, num_have_partner, num_per_location):
+                 num_have_partner, num_per_location):
         """ Constructor for TrainerStats """
         self._num_trainers = num_trainers
         self._num_gym_leaders = num_gym_leader

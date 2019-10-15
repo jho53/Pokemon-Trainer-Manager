@@ -74,7 +74,8 @@ class TrainerManager(AbstractTrainer):
         _num_gym_leaders = 0
         _num_regular_trainers = 0
         _num_trainers_with_partner = 0
-        _num_trainer_per_location = 0
+        _num_trainer_per_location = {}
+
         for trainer in self._trainers:
             _num_total_trainers += 1
 
@@ -84,6 +85,16 @@ class TrainerManager(AbstractTrainer):
                     _num_trainers_with_partner += 1
             else:
                 _num_gym_leaders += 1
+
+        for trainer in self._trainers:
+            if trainer.get_location() in _num_trainer_per_location:
+                _num_trainer_per_location[trainer.get_location()] += 1
+            else:
+                _num_trainer_per_location.update({trainer.get_location(): 1})
+
+        stats_output = TrainerStats(_num_total_trainers, _num_gym_leaders,
+                                    _num_regular_trainers, _num_trainers_with_partner, _num_trainer_per_location)
+        return stats_output
 
     @staticmethod
     def _abstracttrainer_validator(trainer):
