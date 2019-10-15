@@ -10,14 +10,16 @@ import inspect
 class TestTrainerManager(TestCase):
     ''' Unit Tests for TrainerManager Class '''
     # Gym Leader Parameters
-    VALID_GYMLEADER = GymLeader('Brock', {
-        'Golem': 55,
-        'Rellcanth': 54,
-        'Omastar': 56,
-        'Kabutops': 55,
-        'Onix': 61,
-        'Ramparods': 57
-    }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock', 'HM10')
+    VALID_GYMLEADER = GymLeader(
+        'Brock', {
+            'Golem': 55,
+            'Rellcanth': 54,
+            'Omastar': 56,
+            'Kabutops': 55,
+            'Onix': 61,
+            'Ramparods': 57
+        }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock',
+        'HM10')
 
     # Regular Trainer Parameters
     VALID_TRAINER = RegularTrainer('Tom', {
@@ -34,8 +36,8 @@ class TestTrainerManager(TestCase):
     def setUp(self):
         '''Sets up test RegularTrainer class'''
         self.logTrainerManager()
-        self.trainer_manager = TrainerManager(
-            TestTrainerManager.ID_PARAMETER, [])
+        self.trainer_manager = TrainerManager(TestTrainerManager.ID_PARAMETER,
+                                              [])
         self.assertIsNotNone(self.trainer_manager)
 
     def teardown(self):
@@ -56,12 +58,15 @@ class TestTrainerManager(TestCase):
 
     def test_invalid_init(self):
         '''Tests invalid parameters for TrainerManager constructor'''
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should an int',
-                               TrainerManager, TestTrainerManager.EMPTY_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should an int',
-                               TrainerManager, TestTrainerManager.UNDEFINED_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should an int',
-                               TrainerManager, TestTrainerManager.TEST_STR_INPUT)
+        self.assertRaisesRegex(
+            ValueError, 'Incorrect value: input should be an int',
+            TrainerManager, TestTrainerManager.EMPTY_PARAMETER)
+        self.assertRaisesRegex(
+            ValueError, 'Incorrect value: input should be an int',
+            TrainerManager, TestTrainerManager.UNDEFINED_PARAMETER)
+        self.assertRaisesRegex(
+            ValueError, 'Incorrect value: input should be an int',
+            TrainerManager, TestTrainerManager.TEST_STR_INPUT)
 
     def test_valid_add(self):
         '''Tests if TrainerManager accepts valid AbstractTrainer objects'''
@@ -71,15 +76,18 @@ class TestTrainerManager(TestCase):
 
     def test_invalid_add(self):
         '''Tests if TrainerManager rejects invalid AbstractTrainer objects'''
-        self.assertRaisesRegex(TypeError, 'Incorrect value: input should be a AbstractTrainer',
-                               self.trainer_manager.add, None)
+        self.assertRaisesRegex(
+            TypeError, 'Incorrect value: input should be a AbstractTrainer',
+            self.trainer_manager.add, None)
         self.assertEqual(0, len(self.trainer_manager.get_all()))
 
     def test_get_trainer_by_id(self):
         '''Tests if TrainerManager returns trainer by id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.assertEqual(TestTrainerManager.VALID_GYMLEADER, self.trainer_manager.get_trainer_by_id(
-            TestTrainerManager.ID_PARAMETER))
+        self.assertEqual(
+            TestTrainerManager.VALID_GYMLEADER,
+            self.trainer_manager.get_trainer_by_id(
+                TestTrainerManager.ID_PARAMETER))
 
     def test_get_all(self):
         '''Tests if TrainerManager returns all trainers'''
@@ -112,12 +120,18 @@ class TestTrainerManager(TestCase):
 
     def test_invalid_get_all_by_type(self):
         '''Tests if TrainerManager.get_all_by_type() rejects invalid parameters'''
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_type, TestTrainerManager.EMPTY_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_type, TestTrainerManager.UNDEFINED_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_type, TestTrainerManager.ID_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_type,
+                               TestTrainerManager.EMPTY_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_type,
+                               TestTrainerManager.UNDEFINED_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_type,
+                               TestTrainerManager.ID_PARAMETER)
 
     def test_valid_get_all_by_location(self):
         '''Tests if TrainerManager returns trainers by location'''
@@ -129,8 +143,7 @@ class TestTrainerManager(TestCase):
         # Store results in variables
         get_all_gym_leader_obj = self.trainer_manager.get_all_by_location(
             'Kanto')
-        get_all_trainer_obj = self.trainer_manager.get_all_by_location(
-            'Johto')
+        get_all_trainer_obj = self.trainer_manager.get_all_by_location('Johto')
         # Matching results
         self.assertEqual(3, len(get_all_gym_leader_obj))
         self.assertEqual(2, len(get_all_trainer_obj))
@@ -141,26 +154,49 @@ class TestTrainerManager(TestCase):
 
     def test_invalid_get_all_by_location(self):
         '''Tests if TrainerManager.get_all_by_location() rejects invalid parameters'''
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_location, TestTrainerManager.EMPTY_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_location, TestTrainerManager.UNDEFINED_PARAMETER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: input should be a string',
-                               self.trainer_manager.get_all_by_location, TestTrainerManager.ID_PARAMETER)
-
-    # @FIXME FINISH UPDATE AND DELETE UNIT TESTS
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_location,
+                               TestTrainerManager.EMPTY_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_location,
+                               TestTrainerManager.UNDEFINED_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be a string',
+                               self.trainer_manager.get_all_by_location,
+                               TestTrainerManager.ID_PARAMETER)
 
     def test_valid_update(self):
         '''Tests if TrainerManager.update() updates via id'''
+        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
+        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
+        self.trainer_manager.update(0, TestTrainerManager.VALID_TRAINER)
+        self.assertEqual(TestTrainerManager.VALID_TRAINER,
+                         self.trainer_manager.get_all()[0])
 
     def test_invalid_update(self):
         '''Tests if TrainerManager.update() rejects invalid parameters'''
+        self.assertRaisesRegex(
+            TypeError, 'Incorrect value: input should be a AbstractTrainer',
+            self.trainer_manager.update, TestTrainerManager.ID_PARAMETER, None)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be an int',
+                               self.trainer_manager.update, None,
+                               TestTrainerManager.VALID_GYMLEADER)
 
     def test_valid_delete(self):
         '''Tests if TrainerManager.delete() deletes via id'''
+        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
+        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
+        self.trainer_manager.delete(0)
+        self.assertEqual(1, len(self.trainer_manager.get_all()))
 
     def test_invalid_delete(self):
         '''Tests if TrainerManager.delete() rejects invalid parameters'''
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be an int',
+                               self.trainer_manager.delete, None)
 
 
 if __name__ == "__main__":

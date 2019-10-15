@@ -7,9 +7,11 @@ class GymLeader(AbstractTrainer):
     TRAINER_TYPE = 'Gym Leader'
     TRAINER_CLASS = 'Gym Leader'
 
-    def __init__(self, name, pokemon_team, trainer_class, pokecoins, location, badge, element, prize):
+    def __init__(self, name, pokemon_team, trainer_class, pokecoins, location,
+                 badge, element, prize):
         """ Constructor - Initializes the main attributes of GymLeader """
-        super().__init__(name, pokemon_team, GymLeader.TRAINER_CLASS, pokecoins, location)
+        super().__init__(name, pokemon_team, GymLeader.TRAINER_CLASS,
+                         pokecoins, location)
         GymLeader._str_validator(badge)
         self._badge = badge
         GymLeader._str_validator(element)
@@ -23,10 +25,9 @@ class GymLeader(AbstractTrainer):
 
     def get_details(self):
         """ Return the trainer details """
-        details = []
-        details.append(self._name)
-        details.append(self._pokemon_team)
-        return details
+        return ('{0} {1} {2} from {3} has {4} pokemon(s)').format(
+            self._element, GymLeader.TRAINER_CLASS, self._name, self._location,
+            len(self._pokemon_team))
 
     def get_badge(self):
         """ Returns the badge """

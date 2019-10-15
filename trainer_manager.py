@@ -47,19 +47,24 @@ class TrainerManager(AbstractTrainer):
                 trainer_query.append(trainer)
         return trainer_query
 
-    def update(self, AbstractTrainer):
+    def update(self, id, AbstractTrainer):
         """ Updates trainer object """
+        # Validation
         TrainerManager._abstracttrainer_validator(AbstractTrainer)
-        update_object_id = AbstractTrainer._get_id()
-        for trainer in self._trainers:
-            if trainer._get_id == update_object_id:
-                trainer = AbstractTrainer
+        TrainerManager._int_validator(id)
+        if id > len(self._trainers) - 1 or id < 0:
+            raise ValueError('Incorrect value: id not in use')
+
+        for num, trainer in enumerate(self._trainers):
+            if trainer.id is id:
+                self._trainers[num] = AbstractTrainer
+                break
 
     def delete(self, id):
         """ Deletes trainer from trainers """
         TrainerManager._int_validator(id)
         for trainer in self._trainers:
-            if id == trainer._get_id():
+            if id is trainer.id:
                 self._trainers.remove(trainer)
 
     # FIXME: need to get number of trainers per location
@@ -91,7 +96,7 @@ class TrainerManager(AbstractTrainer):
     def _int_validator(arg):
         """ Validator for integer input """
         if arg is None or type(arg) != int:
-            raise ValueError('Incorrect value: input should an int')
+            raise ValueError('Incorrect value: input should be an int')
 
     @staticmethod
     def _str_validator(arg):
