@@ -12,10 +12,11 @@ class RegularTrainer(AbstractTrainer):
         'Running': 1.25
     }
 
-    def __init__(self, id, name, pokemon_team, trainer_class, pokecoins,
-                 location, movement_type, phone_num, have_partner):
+    def __init__(self, name, pokemon_team, trainer_class, pokecoins, location,
+                 movement_type, phone_num, have_partner):
         """ Constructor for RegularTrainer """
-        super().__init__(id, name, pokemon_team, trainer_class, pokecoins, location)
+        super().__init__(name, pokemon_team, trainer_class, pokecoins,
+                         location)
         RegularTrainer._str_validator(movement_type)
         if movement_type not in RegularTrainer.MOVEMENT_TYPE_DICT:
             raise ValueError('Incorrect value: no match found in database')
@@ -28,6 +29,12 @@ class RegularTrainer(AbstractTrainer):
     def get_type(self):
         """ Return the trainer type """
         return RegularTrainer.TRAINER_TYPE
+
+    def get_details(self):
+        """ Return the trainer details """
+        return ('{0} {1} from {2} has {3} pokemon(s)').format(
+            self._trainer_class, self._name, self._location,
+            len(self._pokemon_team))
 
     def get_movement_speed(self):
         """ Return the movement speed """

@@ -7,15 +7,16 @@ class TrainerManager(AbstractTrainer):
 
     def __init__(self, next_available_id, trainers=[]):
         """ Constructor for TrainerManager """
-
+        TrainerManager._int_validator(next_available_id)
         self._next_available_id = next_available_id
-        TrainerManager._abstracttrainer_validator(trainers)
         self._trainers = trainers
 
     def add(self, AbstractTrainer):
         """ Adds an AbstractTrainer object to trainers list """
         TrainerManager._abstracttrainer_validator(AbstractTrainer)
+        AbstractTrainer.id = self._next_available_id
         self._trainers.append(AbstractTrainer)
+        self._next_available_id += 1
 
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
@@ -46,37 +47,70 @@ class TrainerManager(AbstractTrainer):
                 trainer_query.append(trainer)
         return trainer_query
 
-    def update(self, AbstractTrainer):
+    def update(self, id, AbstractTrainer):
         """ Updates trainer object """
+        # Validation
         TrainerManager._abstracttrainer_validator(AbstractTrainer)
-        pass
+        TrainerManager._int_validator(id)
+        if id > len(self._trainers) - 1 or id < 0:
+            raise ValueError('Incorrect value: id not in use')
+
+        for num, trainer in enumerate(self._trainers):
+            if trainer.id is id:
+                self._trainers[num] = AbstractTrainer
+                break
 
     def delete(self, id):
         """ Deletes trainer from trainers """
         TrainerManager._int_validator(id)
         for trainer in self._trainers:
-            if id == trainer._get_id():
+            if id is trainer.id:
                 self._trainers.remove(trainer)
 
+    # FIXME: need to get number of trainers per location
     def get_stats(self):
-        """ Gets trainer stats """
-        pass
+        """ Fetches detailed trainer stats """
+        _num_total_trainers = 0
+        _num_gym_leaders = 0
+        _num_regular_trainers = 0
+        _num_trainers_with_partner = 0
+        _num_trainer_per_location = {}
+
+        for trainer in self._trainers:
+            _num_total_trainers += 1
+
+            if trainer.get_type() == 'Regular Trainer':
+                _num_regular_trainers += 1
+                if trainer.have_partner() is True:
+                    _num_trainers_with_partner += 1
+            else:
+                _num_gym_leaders += 1
+
+        for trainer in self._trainers:
+            if trainer.get_location() in _num_trainer_per_location:
+                _num_trainer_per_location[trainer.get_location()] += 1
+            else:
+                _num_trainer_per_location.update({trainer.get_location(): 1})
+
+        stats_output = TrainerStats(_num_total_trainers, _num_gym_leaders,
+                                    _num_regular_trainers, _num_trainers_with_partner, _num_trainer_per_location)
+        return stats_output
 
     @staticmethod
-    def _abstracttrainer_validator(arg):
-        """ validator for AbstractTrainer input """
-        if not isinstance(arg, AbstractTrainer):
-            return ValueError(
+    def _abstracttrainer_validator(trainer):
+        """ Validator for AbstractTrainer input """
+        if not isinstance(trainer, AbstractTrainer):
+            raise TypeError(
                 'Incorrect value: input should be a AbstractTrainer')
 
     @staticmethod
     def _int_validator(arg):
         """ Validator for integer input """
         if arg is None or type(arg) != int:
-            return ValueError('Incorrect value: input should an int')
+            raise ValueError('Incorrect value: input should be an int')
 
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
-        if arg is None or type(arg) != str:
-            return ValueError('Incorrect value: input should be a string')
+        if arg is None or arg == '' or type(arg) != str:
+            raise ValueError('Incorrect value: input should be a string')
