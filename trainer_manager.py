@@ -17,6 +17,7 @@ class TrainerManager(AbstractTrainer):
         AbstractTrainer.id = self._next_available_id
         self._trainers.append(AbstractTrainer)
         self._next_available_id += 1
+        return AbstractTrainer.id
 
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
@@ -24,6 +25,8 @@ class TrainerManager(AbstractTrainer):
         for trainer in self._trainers:
             if id == trainer._get_id():
                 return trainer
+        # if no match
+        return None
 
     def get_all(self):
         """ Gets all trainers """
@@ -63,9 +66,12 @@ class TrainerManager(AbstractTrainer):
     def delete(self, id):
         """ Deletes trainer from trainers """
         TrainerManager._int_validator(id)
+        if id > len(self._trainers) - 1 or id < 0:
+            raise ValueError('Incorrect value: id not in use')
         for trainer in self._trainers:
             if id is trainer.id:
                 self._trainers.remove(trainer)
+        raise ValueError('Incorrect value: id not in use')
 
     # FIXME: need to get number of trainers per location
     def get_stats(self):
