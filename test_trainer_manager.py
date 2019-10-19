@@ -41,9 +41,8 @@ class TestTrainerManager(TestCase):
                                               [])
         self.assertIsNotNone(self.trainer_manager)
 
-    def teardown(self):
+    def tearDown(self):
         '''Tears down test RegularTrainer class'''
-        del self.trainer_manager
         self.logTrainerManager()
 
     def logTrainerManager(self):

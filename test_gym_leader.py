@@ -37,7 +37,7 @@ class TestGymLeader(TestCase):
             TestGymLeader.ELEMENT_PARAMETER, TestGymLeader.PRIZE_PARAMETER)
         self.assertIsNotNone(self.gym_leader)
 
-    def teardown(self):
+    def tearDown(self):
         '''Tears down test GymLeader class'''
         self.logGymLeader()
 
