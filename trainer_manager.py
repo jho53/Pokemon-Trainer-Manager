@@ -71,6 +71,7 @@ class TrainerManager(AbstractTrainer):
         for trainer in self._trainers:
             if id is trainer.id:
                 self._trainers.remove(trainer)
+                return
         raise ValueError('Incorrect value: id not in use')
 
     # FIXME: need to get number of trainers per location
