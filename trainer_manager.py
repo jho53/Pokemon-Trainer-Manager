@@ -103,6 +103,18 @@ class TrainerManager(AbstractTrainer):
                                     _num_regular_trainers, _num_trainers_with_partner, _num_trainer_per_location)
         return stats_output
 
+    def _read_entities_from_file(self):
+        """ Reads entities from file """
+
+        # TODO: Implementation
+        pass
+
+    def _write_entities_to_file(self):
+        """ Writes entities to file """
+
+        # TODO: Implementation
+        pass
+
     @staticmethod
     def _abstracttrainer_validator(trainer):
         """ Validator for AbstractTrainer input """

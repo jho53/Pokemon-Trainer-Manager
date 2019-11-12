@@ -41,6 +41,14 @@ class GymLeader(AbstractTrainer):
         """ Returns the prize """
         return self._prize
 
+    def to_dict(self):
+        """ Returns Python dictionary representation of GymLeader """
+        dict = {}
+
+        # TODO: add things
+
+        return dict
+
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
