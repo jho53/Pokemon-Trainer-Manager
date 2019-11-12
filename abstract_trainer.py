@@ -53,6 +53,10 @@ class AbstractTrainer:
         """ Returns pokemon team for current trainer """
         return self._pokemon_team
 
+    def to_dict(self):
+        """ Child class must implement method """
+        raise NotImplementedError("Child class must implement method.")
+
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
@@ -67,7 +71,8 @@ class AbstractTrainer:
 
     @staticmethod
     def _pokemon_team_validator(arg):
-        ''' Validator pokemon team '''
-        pass
+        """ Validate pokemon team. Format [[Pokemon: Level]] eg. [['Diglett', 35]] """
+        if type(arg) != dict:
+            return ValueError('Incorrect value: input should be a dictionary. Format example: {"Zubat": 21, "Ekans": 23}')
 
     id = property(_get_id, _set_id)
