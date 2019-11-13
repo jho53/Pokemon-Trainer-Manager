@@ -1,14 +1,18 @@
 from trainer_stats import TrainerStats
 from abstract_trainer import AbstractTrainer
+from os import path
 
 
 class TrainerManager(AbstractTrainer):
     """ TrainerManager class """
 
-    def __init__(self, next_available_id, trainers=[]):
+    def __init__(self, next_available_id, filepath, trainers=[]):
         """ Constructor for TrainerManager """
         TrainerManager._int_validator(next_available_id)
         self._next_available_id = next_available_id
+        TrainerManager._filepath_validatory(filepath)
+        self._filepath = filepath
+        TrainerManager._abstracttrainer_validator(trainers)
         self._trainers = trainers
 
     def add(self, AbstractTrainer):
@@ -133,3 +137,10 @@ class TrainerManager(AbstractTrainer):
         """ Validator for string input """
         if arg is None or arg == '' or type(arg) != str:
             raise ValueError('Incorrect value: input should be a string')
+
+    @staticmethod
+    def _filepath_validatory(arg):
+        """ Validator for filepath """
+        if arg is None or path.exists(arg) is False:
+            raise ValueError(
+                'Incorrect value: input should be a valid filepath')
