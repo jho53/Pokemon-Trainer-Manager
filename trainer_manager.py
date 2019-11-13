@@ -1,19 +1,28 @@
 from trainer_stats import TrainerStats
 from abstract_trainer import AbstractTrainer
 from os import path
+import json
 
 
 class TrainerManager(AbstractTrainer):
     """ TrainerManager class """
 
-    def __init__(self, next_available_id, filepath, trainers=[]):
+    def __init__(self, next_available_id, filepath):
         """ Constructor for TrainerManager """
         TrainerManager._int_validator(next_available_id)
         self._next_available_id = next_available_id
-        TrainerManager._filepath_validatory(filepath)
+        TrainerManager._filepath_validator(filepath)
         self._filepath = filepath
-        TrainerManager._abstracttrainer_validator(trainers)
-        self._trainers = trainers
+        # TrainerManager._abstracttrainer_validator(trainers)
+        # self._trainers = trainers
+
+        self._trainers = []
+
+        data = self._read_entities_from_file()
+        for list_item in data:
+            if len(list_item) > 0:
+                for entity in list_item:
+                    self._trainers.append(entity)
 
     def add(self, AbstractTrainer):
         """ Adds an AbstractTrainer object to trainers list """
@@ -109,9 +118,23 @@ class TrainerManager(AbstractTrainer):
 
     def _read_entities_from_file(self):
         """ Reads entities from file """
+        json_data = {}
 
-        # TODO: Implementation
-        pass
+        regular_trainers = []
+        gym_leaders = []
+
+        with open(self._filepath) as json_file:
+            json_data = json.load(json_file)
+
+        for trainer in json_data:
+            if trainer["type"] == "Regular Trainer":
+                regular_trainers.append(trainer)
+            elif trainer["type"] == "Gym Leader":
+                gym_leaders.append(trainer)
+            else:
+                raise ValueError("Invalid trainer type")
+
+        return [regular_trainers, gym_leaders]
 
     def _write_entities_to_file(self):
         """ Writes entities to file """
@@ -139,7 +162,7 @@ class TrainerManager(AbstractTrainer):
             raise ValueError('Incorrect value: input should be a string')
 
     @staticmethod
-    def _filepath_validatory(arg):
+    def _filepath_validator(arg):
         """ Validator for filepath """
         if arg is None or path.exists(arg) is False:
             raise ValueError(
