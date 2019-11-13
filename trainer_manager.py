@@ -87,7 +87,6 @@ class TrainerManager(AbstractTrainer):
                 return
         raise ValueError('Incorrect value: id not in use')
 
-    # FIXME: need to get number of trainers per location
     def get_stats(self):
         """ Fetches detailed trainer stats """
         _num_total_trainers = 0
@@ -139,8 +138,12 @@ class TrainerManager(AbstractTrainer):
     def _write_entities_to_file(self):
         """ Writes entities to file """
 
-        # TODO: Implementation
-        pass
+        temp_list = []
+        for trainer in self._trainers:
+            temp_list.append(trainer)
+
+        with open(self._filepath, "w") as outfile:
+            json.dump(temp_list, outfile)
 
     @staticmethod
     def _abstracttrainer_validator(trainer):
