@@ -10,5 +10,6 @@
     "location": "Viridian Forest",
     "movement_type": "Walking",
     "phone_num": false,
-    "have_partner": false
+    "have_partner": false,
+    "type": "Regular Trainer"
 }

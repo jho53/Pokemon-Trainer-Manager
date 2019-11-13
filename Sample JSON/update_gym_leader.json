@@ -13,5 +13,6 @@
     "location": "Richmond",
     "badge": "Strong Man Badge",
     "element": "Fighting",
-    "prize": ""
+    "prize": "",
+    "type": "Gym Leader"
 }
