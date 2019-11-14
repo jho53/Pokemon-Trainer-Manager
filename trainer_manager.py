@@ -1,15 +1,28 @@
 from trainer_stats import TrainerStats
 from abstract_trainer import AbstractTrainer
+from os import path
+import json
 
 
 class TrainerManager(AbstractTrainer):
     """ TrainerManager class """
 
-    def __init__(self, next_available_id, trainers=[]):
+    def __init__(self, next_available_id, filepath):
         """ Constructor for TrainerManager """
         TrainerManager._int_validator(next_available_id)
         self._next_available_id = next_available_id
-        self._trainers = trainers
+        TrainerManager._filepath_validator(filepath)
+        self._filepath = filepath
+        # TrainerManager._abstracttrainer_validator(trainers)
+        # self._trainers = trainers
+
+        self._trainers = []
+
+        data = self._read_entities_from_file()
+        for list_item in data:
+            if len(list_item) > 0:
+                for entity in list_item:
+                    self._trainers.append(entity)
 
     def add(self, AbstractTrainer):
         """ Adds an AbstractTrainer object to trainers list """
@@ -17,6 +30,7 @@ class TrainerManager(AbstractTrainer):
         AbstractTrainer.id = self._next_available_id
         self._trainers.append(AbstractTrainer)
         self._next_available_id += 1
+        return AbstractTrainer.id
 
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
@@ -24,6 +38,8 @@ class TrainerManager(AbstractTrainer):
         for trainer in self._trainers:
             if id == trainer._get_id():
                 return trainer
+        # if no match
+        return None
 
     def get_all(self):
         """ Gets all trainers """
@@ -63,11 +79,14 @@ class TrainerManager(AbstractTrainer):
     def delete(self, id):
         """ Deletes trainer from trainers """
         TrainerManager._int_validator(id)
+        if id > len(self._trainers) - 1 or id < 0:
+            raise ValueError('Incorrect value: id not in use')
         for trainer in self._trainers:
             if id is trainer.id:
                 self._trainers.remove(trainer)
+                return
+        raise ValueError('Incorrect value: id not in use')
 
-    # FIXME: need to get number of trainers per location
     def get_stats(self):
         """ Fetches detailed trainer stats """
         _num_total_trainers = 0
@@ -96,6 +115,36 @@ class TrainerManager(AbstractTrainer):
                                     _num_regular_trainers, _num_trainers_with_partner, _num_trainer_per_location)
         return stats_output
 
+    def _read_entities_from_file(self):
+        """ Reads entities from file """
+        json_data = {}
+
+        regular_trainers = []
+        gym_leaders = []
+
+        with open(self._filepath) as json_file:
+            json_data = json.load(json_file)
+
+        for trainer in json_data:
+            if trainer["type"] == "Regular Trainer":
+                regular_trainers.append(trainer)
+            elif trainer["type"] == "Gym Leader":
+                gym_leaders.append(trainer)
+            else:
+                raise ValueError("Invalid trainer type")
+
+        return [regular_trainers, gym_leaders]
+
+    def _write_entities_to_file(self):
+        """ Writes entities to file """
+
+        temp_list = []
+        for trainer in self._trainers:
+            temp_list.append(trainer)
+
+        with open(self._filepath, "w") as outfile:
+            json.dump(temp_list, outfile)
+
     @staticmethod
     def _abstracttrainer_validator(trainer):
         """ Validator for AbstractTrainer input """
@@ -114,3 +163,10 @@ class TrainerManager(AbstractTrainer):
         """ Validator for string input """
         if arg is None or arg == '' or type(arg) != str:
             raise ValueError('Incorrect value: input should be a string')
+
+    @staticmethod
+    def _filepath_validator(arg):
+        """ Validator for filepath """
+        if arg is None or path.exists(arg) is False:
+            raise ValueError(
+                'Incorrect value: input should be a valid filepath')

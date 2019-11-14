@@ -36,7 +36,7 @@ class TestRegularTrainer(TestCase):
             TestRegularTrainer.HAVE_PARTNER_PARAMETER)
         self.assertIsNotNone(self.regular_trainer)
 
-    def teardown(self):
+    def tearDown(self):
         '''Tears down test RegularTrainer class'''
         self.logRegularTrainer()
 

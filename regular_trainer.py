@@ -50,6 +50,14 @@ class RegularTrainer(AbstractTrainer):
         """ Return True if trainer has partner """
         return self._have_partner
 
+    def to_dict(self):
+        """ Returns Python dictionary representation of RegularTrainer """
+        dict = {}
+
+        # TODO: add things
+
+        return dict
+
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """

@@ -1,0 +1,18 @@
+{
+    "name": "Jimbob",
+    "pokemon_team": {
+        "Golem": 55,
+        "Rellcanth": 54,
+        "Omastar": 56,
+        "Kabutops": 55,
+        "Onix": 61,
+        "Ramparods": 57
+    },
+    "trainer_class": "Gym Leader",
+    "pokecoins": 5290,
+    "location": "Richmond",
+    "badge": "Strong Man Badge",
+    "element": "Fighting",
+    "prize": "TM69",
+    "type": "Gym Leader"
+}

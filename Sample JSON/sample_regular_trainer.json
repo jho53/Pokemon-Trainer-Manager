@@ -1,0 +1,14 @@
+{
+    "name": "Jimbob",
+    "pokemon_team": {
+        "Diglett": 6,
+        "Ekans": 9
+    },
+    "trainer_class": "Schoolboy",
+    "pokecoins": 10,
+    "location": "Viridian Forest",
+    "movement_type": "Walking",
+    "phone_num": false,
+    "have_partner": false,
+    "type": "Regular Trainer"
+}
