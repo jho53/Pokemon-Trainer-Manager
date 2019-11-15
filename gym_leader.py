@@ -45,7 +45,15 @@ class GymLeader(AbstractTrainer):
         """ Returns Python dictionary representation of GymLeader """
         dict = {}
 
-        # TODO: add things
+        dict['id'] = self._id
+        dict['name'] = self._name
+        dict['pokemon_team'] = self._pokemon_team
+        dict['trainer_class'] = self._trainer_class
+        dict['pokecoins'] = self._pokecoins
+        dict['location'] = self._location
+        dict['badge'] = self._badge
+        dict['element'] = self._element
+        dict['prize'] = self._prize
 
         return dict
 

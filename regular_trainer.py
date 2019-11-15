@@ -54,7 +54,15 @@ class RegularTrainer(AbstractTrainer):
         """ Returns Python dictionary representation of RegularTrainer """
         dict = {}
 
-        # TODO: add things
+        dict['id'] = self._id
+        dict['name'] = self._name
+        dict['pokemon_team'] = self._pokemon_team
+        dict['trainer_class'] = self._trainer_class
+        dict['pokecoins'] = self._pokecoins
+        dict['location'] = self._location
+        dict['movement_type'] = self._movement_type
+        dict['phone_num'] = self._phone_num
+        dict['have_partner'] = self._have_partner
 
         return dict
 

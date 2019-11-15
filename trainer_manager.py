@@ -1,5 +1,7 @@
 from trainer_stats import TrainerStats
 from abstract_trainer import AbstractTrainer
+from regular_trainer import RegularTrainer
+from gym_leader import GymLeader
 from os import path
 import json
 
@@ -7,36 +9,29 @@ import json
 class TrainerManager(AbstractTrainer):
     """ TrainerManager class """
 
-    def __init__(self, next_available_id, filepath):
+    def __init__(self, filepath):
         """ Constructor for TrainerManager """
-        TrainerManager._int_validator(next_available_id)
-        self._next_available_id = next_available_id
         TrainerManager._filepath_validator(filepath)
         self._filepath = filepath
-        # TrainerManager._abstracttrainer_validator(trainers)
-        # self._trainers = trainers
 
         self._trainers = []
+        self._next_available_id = 0
 
-        data = self._read_entities_from_file()
-        for list_item in data:
-            if len(list_item) > 0:
-                for entity in list_item:
-                    self._trainers.append(entity)
+        self._read_entities_from_file()
 
-    def add(self, AbstractTrainer):
+    def add(self, trainer):
         """ Adds an AbstractTrainer object to trainers list """
-        TrainerManager._abstracttrainer_validator(AbstractTrainer)
-        AbstractTrainer.id = self._next_available_id
-        self._trainers.append(AbstractTrainer)
+        TrainerManager._abstracttrainer_validator(trainer)
+        trainer.id = self._next_available_id
+        self._trainers.append(trainer)
         self._next_available_id += 1
-        return AbstractTrainer.id
+        return trainer.id
 
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
         TrainerManager._int_validator(id)
         for trainer in self._trainers:
-            if id == trainer._get_id():
+            if id is trainer.id:
                 return trainer
         # if no match
         return None
@@ -111,36 +106,42 @@ class TrainerManager(AbstractTrainer):
             else:
                 _num_trainer_per_location.update({trainer.get_location(): 1})
 
-        stats_output = TrainerStats(_num_total_trainers, _num_gym_leaders,
-                                    _num_regular_trainers, _num_trainers_with_partner, _num_trainer_per_location)
+        stats_output = TrainerStats(
+            _num_total_trainers, _num_gym_leaders, _num_regular_trainers,
+            _num_trainers_with_partner, _num_trainer_per_location)
         return stats_output
 
     def _read_entities_from_file(self):
         """ Reads entities from file """
-        json_data = {}
-
-        regular_trainers = []
-        gym_leaders = []
-
-        with open(self._filepath) as json_file:
+        with open(self._filepath, 'r') as json_file:
             json_data = json.load(json_file)
 
         for trainer in json_data:
             if trainer["type"] == "Regular Trainer":
-                regular_trainers.append(trainer)
+                temp_rt = RegularTrainer(
+                    trainer['name'], trainer['pokemon_team'],
+                    trainer['trainer_class'], trainer['pokecoins'],
+                    trainer['location'], trainer['movement_type'],
+                    trainer['phone_num'], trainer['have_partner'])
+                temp_rt.id = trainer['id']
+                self._trainers.append(temp_rt)
             elif trainer["type"] == "Gym Leader":
-                gym_leaders.append(trainer)
+                temp_gl = GymLeader(trainer['name'], trainer['pokemon_team'],
+                                    trainer['trainer_class'],
+                                    trainer['pokecoins'], trainer['location'],
+                                    trainer['badge'], trainer['element'],
+                                    trainer['prize'])
+                temp_gl.id = trainer['id']
+                self._trainers.append(temp_gl)
             else:
                 raise ValueError("Invalid trainer type")
 
-        return [regular_trainers, gym_leaders]
-
     def _write_entities_to_file(self):
         """ Writes entities to file """
-
         temp_list = []
+
         for trainer in self._trainers:
-            temp_list.append(trainer)
+            temp_list.append(trainer.to_dict())
 
         with open(self._filepath, "w") as outfile:
             json.dump(temp_list, outfile)
@@ -161,7 +162,7 @@ class TrainerManager(AbstractTrainer):
     @staticmethod
     def _str_validator(arg):
         """ Validator for string input """
-        if arg is None or arg == '' or type(arg) != str:
+        if arg is None or arg is '' or type(arg) != str:
             raise ValueError('Incorrect value: input should be a string')
 
     @staticmethod

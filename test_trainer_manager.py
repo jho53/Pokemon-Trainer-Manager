@@ -4,6 +4,7 @@ from gym_leader import GymLeader
 from regular_trainer import RegularTrainer
 from trainer_stats import TrainerStats
 
+from unittest.mock import patch, mock_open
 import unittest
 import inspect
 
@@ -30,15 +31,17 @@ class TestTrainerManager(TestCase):
 
     # General Parameters
     ID_PARAMETER = 0
+    FILE_PATH_PARAMETER = "./trainer_list.json"
     EMPTY_PARAMETER = ''
     UNDEFINED_PARAMETER = None
     TEST_STR_INPUT = 'Test'
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def setUp(self):
         '''Sets up test RegularTrainer class'''
         self.logTrainerManager()
-        self.trainer_manager = TrainerManager(TestTrainerManager.ID_PARAMETER,
-                                              [])
+        self.trainer_manager = TrainerManager(
+            TestTrainerManager.FILE_PATH_PARAMETER)
         self.assertIsNotNone(self.trainer_manager)
 
     def tearDown(self):
@@ -51,29 +54,32 @@ class TestTrainerManager(TestCase):
         callingFunction = inspect.stack()[1][3]
         print('in %s - %s()' % (currentTest, callingFunction))
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_init(self):
         '''Tests valid parameters for TrainerManager constructor'''
-        self.trainer_manager = TrainerManager(TestTrainerManager.ID_PARAMETER)
+        self.trainer_manager = TrainerManager(
+            TestTrainerManager.FILE_PATH_PARAMETER)
         self.assertIsNotNone(self.trainer_manager)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_invalid_init(self):
         '''Tests invalid parameters for TrainerManager constructor'''
         self.assertRaisesRegex(
-            ValueError, 'Incorrect value: input should be an int',
+            ValueError, 'Incorrect value: input should be a valid filepath',
             TrainerManager, TestTrainerManager.EMPTY_PARAMETER)
         self.assertRaisesRegex(
-            ValueError, 'Incorrect value: input should be an int',
+            ValueError, 'Incorrect value: input should be a valid filepath',
             TrainerManager, TestTrainerManager.UNDEFINED_PARAMETER)
         self.assertRaisesRegex(
-            ValueError, 'Incorrect value: input should be an int',
+            ValueError, 'Incorrect value: input should be a valid filepath',
             TrainerManager, TestTrainerManager.TEST_STR_INPUT)
 
     def test_valid_add(self):
         '''Tests if TrainerManager accepts valid AbstractTrainer objects'''
-        self.assertEqual(0, self.trainer_manager.add(
-            TestTrainerManager.VALID_GYMLEADER))
-        self.assertEqual(1, self.trainer_manager.add(
-            TestTrainerManager.VALID_TRAINER))
+        self.assertEqual(
+            0, self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER))
+        self.assertEqual(
+            1, self.trainer_manager.add(TestTrainerManager.VALID_TRAINER))
         self.assertEqual(2, len(self.trainer_manager.get_all()))
 
     def test_invalid_add(self):
@@ -93,12 +99,14 @@ class TestTrainerManager(TestCase):
 
     def test_invalid_get_trainer_by_id(self):
         '''Tests if get_trainer_by_id rejects invalid parameters'''
-        self.assertRaisesRegex(
-            ValueError, 'Incorrect value: input should be an int',
-            self.trainer_manager.get_trainer_by_id, TestTrainerManager.EMPTY_PARAMETER)
-        self.assertRaisesRegex(
-            ValueError, 'Incorrect value: input should be an int',
-            self.trainer_manager.get_trainer_by_id, TestTrainerManager.UNDEFINED_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be an int',
+                               self.trainer_manager.get_trainer_by_id,
+                               TestTrainerManager.EMPTY_PARAMETER)
+        self.assertRaisesRegex(ValueError,
+                               'Incorrect value: input should be an int',
+                               self.trainer_manager.get_trainer_by_id,
+                               TestTrainerManager.UNDEFINED_PARAMETER)
         self.assertIsNone(self.trainer_manager.get_trainer_by_id(999))
 
     def test_get_all(self):
@@ -197,9 +205,11 @@ class TestTrainerManager(TestCase):
                                self.trainer_manager.update, None,
                                TestTrainerManager.VALID_GYMLEADER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
-                               self.trainer_manager.update, 15, TestTrainerManager.VALID_GYMLEADER)
+                               self.trainer_manager.update, 15,
+                               TestTrainerManager.VALID_GYMLEADER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
-                               self.trainer_manager.update, -15, TestTrainerManager.VALID_GYMLEADER)
+                               self.trainer_manager.update, -15,
+                               TestTrainerManager.VALID_GYMLEADER)
 
     def test_valid_delete(self):
         '''Tests if TrainerManager.delete() deletes via id'''
@@ -212,7 +222,8 @@ class TestTrainerManager(TestCase):
         '''Tests if TrainerManager.delete() rejects invalid parameters'''
         self.assertRaisesRegex(ValueError,
                                'Incorrect value: input should be an int',
-                               self.trainer_manager.delete, TestTrainerManager.UNDEFINED_PARAMETER)
+                               self.trainer_manager.delete,
+                               TestTrainerManager.UNDEFINED_PARAMETER)
         self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
                                self.trainer_manager.delete, 15)
         self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
@@ -226,23 +237,28 @@ class TestTrainerManager(TestCase):
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
-        self.assertTrue(isinstance(
-            self.trainer_manager.get_stats(), TrainerStats))
+        self.assertTrue(
+            isinstance(self.trainer_manager.get_stats(), TrainerStats))
 
         self.assertEqual(
-            3, self.trainer_manager.get_stats().get_num_regular_trainer())
+            3,
+            self.trainer_manager.get_stats().get_num_regular_trainer())
+        self.assertEqual(3,
+                         self.trainer_manager.get_stats().get_num_gym_leader())
+        self.assertEqual(6,
+                         self.trainer_manager.get_stats().get_num_trainers())
         self.assertEqual(
-            3, self.trainer_manager.get_stats().get_num_gym_leader())
+            3,
+            self.trainer_manager.get_stats().get_num_trainer_have_partner())
         self.assertEqual(
-            6, self.trainer_manager.get_stats().get_num_trainers())
+            dict,
+            type(self.trainer_manager.get_stats().get_num_per_location()))
         self.assertEqual(
-            3, self.trainer_manager.get_stats().get_num_trainer_have_partner())
-        self.assertEqual(
-            dict, type(self.trainer_manager.get_stats().get_num_per_location()))
-        self.assertEqual(
-            {'Johto': 3, 'Kanto': 3}, self.trainer_manager.get_stats(
-            ).get_num_per_location()
-        )
+            {
+                'Johto': 3,
+                'Kanto': 3
+            },
+            self.trainer_manager.get_stats().get_num_per_location())
 
 
 if __name__ == "__main__":

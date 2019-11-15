@@ -168,6 +168,21 @@ class TestRegularTrainer(TestCase):
         '''Tests if have_partner() returns correct value'''
         self.assertEqual(True, self.regular_trainer.have_partner())
 
+    def test_to_dict(self):
+        '''Tests if to_dict() returns expected dictionary format'''
+        compare_dict = {
+            "id": None,
+            "name": TestRegularTrainer.NAME_PARAMETER,
+            "pokemon_team": TestRegularTrainer.POKEMON_TEAM_PARAMETER,
+            "trainer_class": TestRegularTrainer.TRAINER_CLASS_PARAMETER,
+            "pokecoins": TestRegularTrainer.POKECOIN_PARAMETER,
+            "location": TestRegularTrainer.LOCATION_PARAMETER,
+            "movement_type": TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
+            "phone_num": TestRegularTrainer.PHONE_NUM_PARAMETER,
+            "have_partner": TestRegularTrainer.HAVE_PARTNER_PARAMETER
+        }
+        self.assertDictEqual(compare_dict, self.regular_trainer.to_dict())
+
 
 if __name__ == "__main__":
     unittest.main()

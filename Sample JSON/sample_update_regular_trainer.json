@@ -1,0 +1,19 @@
+{
+    "id": 11,
+    "name": "Jimbob",
+    "pokemon_team": {
+        "Rayquaza": 69,
+        "Ninetales": 99,
+        "Snorlax": 77,
+        "Garchomp": 99,
+        "Metagross": 69,
+        "Regigigas": 69
+    },
+    "trainer_class": "Rich Boy",
+    "pokecoins": 9999999,
+    "location": "Victory Road",
+    "movement_type": "Swimming",
+    "phone_num": false,
+    "have_partner": false,
+    "type": "Regular Trainer"
+}

@@ -3,8 +3,7 @@ class AbstractTrainer:
 
     def __init__(self, name, pokemon_team, trainer_class, pokecoins, location):
         """ Constructor for AbstractTrainer """
-        AbstractTrainer._int_validator(id)
-        self._id = id
+        self._id = None
         AbstractTrainer._str_validator(name)
         self._name = name
         AbstractTrainer._pokemon_team_validator(pokemon_team)
@@ -17,11 +16,11 @@ class AbstractTrainer:
         self._location = location
 
     def get_type(self):
-        """ Abstract method, returns error msg when called in abstract class """
+        """ Abstract method, raises error msg when called in abstract class """
         raise NotImplementedError("Child class must implement method.")
 
     def get_details(self):
-        """ Abstract method, returns error msg when called in abstract class """
+        """ Abstract method, raises error msg when called in abstract class """
         raise NotImplementedError("Child class must implement method.")
 
     def get_name(self):
@@ -71,8 +70,8 @@ class AbstractTrainer:
 
     @staticmethod
     def _pokemon_team_validator(arg):
-        """ Validate pokemon team. Format [[Pokemon: Level]] eg. [['Diglett', 35]] """
+        """ Validate pokemon team """
         if type(arg) != dict:
-            return ValueError('Incorrect value: input should be a dictionary. Format example: {"Zubat": 21, "Ekans": 23}')
+            return ValueError('Incorrect value: input should be a dictionary')
 
     id = property(_get_id, _set_id)

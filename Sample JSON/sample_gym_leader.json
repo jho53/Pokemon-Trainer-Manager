@@ -1,5 +1,6 @@
 {
-    "name": "Jimbob",
+    "id": 12,
+    "name": "Brock",
     "pokemon_team": {
         "Golem": 55,
         "Rellcanth": 54,
@@ -10,7 +11,7 @@
     },
     "trainer_class": "Gym Leader",
     "pokecoins": 5290,
-    "location": "Richmond",
+    "location": "Kanto",
     "badge": "Strong Man Badge",
     "element": "Fighting",
     "prize": "TM69",

@@ -140,6 +140,21 @@ class TestGymLeader(TestCase):
         '''Tests if get_prize() returns correct value'''
         self.assertEqual('HM10', self.gym_leader.get_prize())
 
+    def test_to_dict(self):
+        '''Tests if to_dict() returns expected dictionary format'''
+        compare_dict = {
+            "id": None,
+            "name": TestGymLeader.NAME_PARAMETER,
+            "pokemon_team": TestGymLeader.POKEMON_TEAM_PARAMETER,
+            "trainer_class": GymLeader.TRAINER_CLASS,
+            "pokecoins": TestGymLeader.POKECOIN_PARAMETER,
+            "location": TestGymLeader.LOCATION_PARAMETER,
+            "badge": TestGymLeader.BADGE_PARAMETER,
+            "element": TestGymLeader.ELEMENT_PARAMETER,
+            "prize": TestGymLeader.PRIZE_PARAMETER
+        }
+        self.assertDictEqual(compare_dict, self.gym_leader.to_dict())
+
 
 if __name__ == "__main__":
     unittest.main()
