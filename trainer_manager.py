@@ -25,6 +25,7 @@ class TrainerManager(AbstractTrainer):
         trainer.id = self._next_available_id
         self._trainers.append(trainer)
         self._next_available_id += 1
+        self._write_entities_to_file()
         return trainer.id
 
     def get_trainer_by_id(self, id):
@@ -58,18 +59,16 @@ class TrainerManager(AbstractTrainer):
                 trainer_query.append(trainer)
         return trainer_query
 
-    def update(self, id, AbstractTrainer):
+    def update(self, trainer):
         """ Updates trainer object """
         # Validation
-        TrainerManager._abstracttrainer_validator(AbstractTrainer)
-        TrainerManager._int_validator(id)
-        if id > len(self._trainers) - 1 or id < 0:
-            raise ValueError('Incorrect value: id not in use')
-
-        for num, trainer in enumerate(self._trainers):
-            if trainer.id is id:
-                self._trainers[num] = AbstractTrainer
-                break
+        TrainerManager._abstracttrainer_validator(trainer)
+        for num, current_trainer in enumerate(self._trainers):
+            if current_trainer.id is trainer.id:
+                self._trainers[num] = trainer
+                self._write_entities_to_file()
+                return
+        raise ValueError('ID not found in database')
 
     def delete(self, id):
         """ Deletes trainer from trainers """
@@ -79,6 +78,7 @@ class TrainerManager(AbstractTrainer):
         for trainer in self._trainers:
             if id is trainer.id:
                 self._trainers.remove(trainer)
+                self._write_entities_to_file()
                 return
         raise ValueError('Incorrect value: id not in use')
 
@@ -92,7 +92,6 @@ class TrainerManager(AbstractTrainer):
 
         for trainer in self._trainers:
             _num_total_trainers += 1
-
             if trainer.get_type() == 'Regular Trainer':
                 _num_regular_trainers += 1
                 if trainer.have_partner() is True:
@@ -109,12 +108,16 @@ class TrainerManager(AbstractTrainer):
         stats_output = TrainerStats(
             _num_total_trainers, _num_gym_leaders, _num_regular_trainers,
             _num_trainers_with_partner, _num_trainer_per_location)
+
         return stats_output
 
     def _read_entities_from_file(self):
         """ Reads entities from file """
-        with open(self._filepath, 'r') as json_file:
-            json_data = json.load(json_file)
+        try:
+            with open(self._filepath, 'r') as json_file:
+                json_data = json.load(json_file)
+        except Exception:
+            json_data = []
 
         for trainer in json_data:
             if trainer["type"] == "Regular Trainer":
@@ -124,7 +127,7 @@ class TrainerManager(AbstractTrainer):
                     trainer['location'], trainer['movement_type'],
                     trainer['phone_num'], trainer['have_partner'])
                 temp_rt.id = trainer['id']
-                self._trainers.append(temp_rt)
+                self.add(temp_rt)
             elif trainer["type"] == "Gym Leader":
                 temp_gl = GymLeader(trainer['name'], trainer['pokemon_team'],
                                     trainer['trainer_class'],
@@ -132,7 +135,7 @@ class TrainerManager(AbstractTrainer):
                                     trainer['badge'], trainer['element'],
                                     trainer['prize'])
                 temp_gl.id = trainer['id']
-                self._trainers.append(temp_gl)
+                self.add(temp_gl)
             else:
                 raise ValueError("Invalid trainer type")
 

@@ -63,6 +63,7 @@ class RegularTrainer(AbstractTrainer):
         dict['movement_type'] = self._movement_type
         dict['phone_num'] = self._phone_num
         dict['have_partner'] = self._have_partner
+        dict['type'] = self.TRAINER_TYPE
 
         return dict
 

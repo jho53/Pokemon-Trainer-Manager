@@ -151,7 +151,8 @@ class TestGymLeader(TestCase):
             "location": TestGymLeader.LOCATION_PARAMETER,
             "badge": TestGymLeader.BADGE_PARAMETER,
             "element": TestGymLeader.ELEMENT_PARAMETER,
-            "prize": TestGymLeader.PRIZE_PARAMETER
+            "prize": TestGymLeader.PRIZE_PARAMETER,
+            "type": GymLeader.TRAINER_TYPE
         }
         self.assertDictEqual(compare_dict, self.gym_leader.to_dict())
 

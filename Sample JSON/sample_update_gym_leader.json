@@ -1,5 +1,4 @@
 {
-    "id": 13,
     "name": "Jimbob",
     "pokemon_team": {
         "Golem": 55,
@@ -14,6 +13,6 @@
     "location": "Richmond",
     "badge": "Strong Man Badge",
     "element": "Fighting",
-    "prize": "",
+    "prize": "TM99",
     "type": "Gym Leader"
 }

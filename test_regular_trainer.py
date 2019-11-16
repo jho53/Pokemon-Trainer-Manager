@@ -179,7 +179,8 @@ class TestRegularTrainer(TestCase):
             "location": TestRegularTrainer.LOCATION_PARAMETER,
             "movement_type": TestRegularTrainer.MOVEMENT_TYPE_PARAMETER,
             "phone_num": TestRegularTrainer.PHONE_NUM_PARAMETER,
-            "have_partner": TestRegularTrainer.HAVE_PARTNER_PARAMETER
+            "have_partner": TestRegularTrainer.HAVE_PARTNER_PARAMETER,
+            "type": RegularTrainer.TRAINER_TYPE
         }
         self.assertDictEqual(compare_dict, self.regular_trainer.to_dict())
 

@@ -74,6 +74,7 @@ class TestTrainerManager(TestCase):
             ValueError, 'Incorrect value: input should be a valid filepath',
             TrainerManager, TestTrainerManager.TEST_STR_INPUT)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_add(self):
         '''Tests if TrainerManager accepts valid AbstractTrainer objects'''
         self.assertEqual(
@@ -82,6 +83,7 @@ class TestTrainerManager(TestCase):
             1, self.trainer_manager.add(TestTrainerManager.VALID_TRAINER))
         self.assertEqual(2, len(self.trainer_manager.get_all()))
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_invalid_add(self):
         '''Tests if TrainerManager rejects invalid AbstractTrainer objects'''
         self.assertRaisesRegex(
@@ -89,6 +91,7 @@ class TestTrainerManager(TestCase):
             self.trainer_manager.add, TestTrainerManager.UNDEFINED_PARAMETER)
         self.assertEqual(0, len(self.trainer_manager.get_all()))
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_get_trainer_by_id(self):
         '''Tests if TrainerManager returns trainer by id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
@@ -109,6 +112,7 @@ class TestTrainerManager(TestCase):
                                TestTrainerManager.UNDEFINED_PARAMETER)
         self.assertIsNone(self.trainer_manager.get_trainer_by_id(999))
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_get_all(self):
         '''Tests if TrainerManager returns all trainers'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
@@ -118,6 +122,7 @@ class TestTrainerManager(TestCase):
         self.assertEqual(TestTrainerManager.VALID_GYMLEADER, get_all_object[0])
         self.assertEqual(TestTrainerManager.VALID_TRAINER, get_all_object[1])
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_get_all_by_type(self):
         '''Tests if TrainerManager returns trainers by type'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
@@ -138,6 +143,7 @@ class TestTrainerManager(TestCase):
         self.assertEqual(TestTrainerManager.VALID_TRAINER,
                          get_all_trainer_obj[1])
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_invalid_get_all_by_type(self):
         '''Tests if TrainerManager.get_all_by_type() rejects invalid parameters'''
         self.assertRaisesRegex(ValueError,
@@ -153,6 +159,7 @@ class TestTrainerManager(TestCase):
                                self.trainer_manager.get_all_by_type,
                                TestTrainerManager.ID_PARAMETER)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_get_all_by_location(self):
         '''Tests if TrainerManager returns trainers by location'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
@@ -187,30 +194,48 @@ class TestTrainerManager(TestCase):
                                self.trainer_manager.get_all_by_location,
                                TestTrainerManager.ID_PARAMETER)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_update(self):
         '''Tests if TrainerManager.update() updates via id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
-        self.trainer_manager.update(0, TestTrainerManager.VALID_TRAINER)
-        self.assertEqual(TestTrainerManager.VALID_TRAINER,
+        new_gym_leader = GymLeader(
+            'Twink', {
+                'Golem': 55,
+                'Rellcanth': 54,
+                'Omastar': 56,
+                'Kabutops': 55,
+                'Onix': 61,
+                'Ramparods': 57
+            }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock',
+            'HM10')
+        new_gym_leader.id = 0
+        self.trainer_manager.update(new_gym_leader)
+        self.assertEqual(new_gym_leader,
                          self.trainer_manager.get_all()[0])
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_invalid_update(self):
         '''Tests if TrainerManager.update() rejects invalid parameters'''
         self.assertRaisesRegex(
             TypeError, 'Incorrect value: input should be a AbstractTrainer',
-            self.trainer_manager.update, TestTrainerManager.ID_PARAMETER, None)
-        self.assertRaisesRegex(ValueError,
-                               'Incorrect value: input should be an int',
-                               self.trainer_manager.update, None,
-                               TestTrainerManager.VALID_GYMLEADER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
-                               self.trainer_manager.update, 15,
-                               TestTrainerManager.VALID_GYMLEADER)
-        self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
-                               self.trainer_manager.update, -15,
-                               TestTrainerManager.VALID_GYMLEADER)
+            self.trainer_manager.update, None)
+        new_gym_leader = GymLeader(
+            'Twink', {
+                'Golem': 55,
+                'Rellcanth': 54,
+                'Omastar': 56,
+                'Kabutops': 55,
+                'Onix': 61,
+                'Ramparods': 57
+            }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock',
+            'HM10')
+        new_gym_leader.id = 20
+        self.assertRaisesRegex(
+            ValueError, 'ID not found in database',
+            self.trainer_manager.update, new_gym_leader)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_valid_delete(self):
         '''Tests if TrainerManager.delete() deletes via id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
@@ -218,6 +243,7 @@ class TestTrainerManager(TestCase):
         self.trainer_manager.delete(0)
         self.assertEqual(1, len(self.trainer_manager.get_all()))
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_invalid_delete(self):
         '''Tests if TrainerManager.delete() rejects invalid parameters'''
         self.assertRaisesRegex(ValueError,
@@ -229,6 +255,7 @@ class TestTrainerManager(TestCase):
         self.assertRaisesRegex(ValueError, 'Incorrect value: id not in use',
                                self.trainer_manager.delete, -15)
 
+    @patch('builtins.open', mock_open(read_data='[]'))
     def test_get_stats(self):
         '''Tests if TrainerManager.get_stats() displays correct output'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)

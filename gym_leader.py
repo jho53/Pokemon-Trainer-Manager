@@ -54,6 +54,7 @@ class GymLeader(AbstractTrainer):
         dict['badge'] = self._badge
         dict['element'] = self._element
         dict['prize'] = self._prize
+        dict['type'] = self.TRAINER_TYPE
 
         return dict
 
