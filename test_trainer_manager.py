@@ -6,8 +6,9 @@ from trainer_stats import TrainerStats
 
 import sqlite3
 import unittest
-import time
 import inspect
+import time
+import json
 import os
 
 
@@ -23,13 +24,13 @@ class TestTrainerManager(TestCase):
             'Onix': 61,
             'Ramparods': 57
         }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock',
-        'HM10')
+        'HM10', "Gym Leader")
 
     # Regular Trainer Parameters
     VALID_TRAINER = RegularTrainer('Tom', {
         'Zubat': 21,
         'Ekans': 23
-    }, 'Team Rocket Grunt', 540, 'Johto', 'Walking', False, True)
+    }, 'Team Rocket Grunt', 540, 'Johto', 'Walking', False, True, "Regular Trainer")
 
     # General Parameters
     ID_PARAMETER = 1
@@ -73,15 +74,8 @@ class TestTrainerManager(TestCase):
 
     def tearDown(self):
         '''Tears down test RegularTrainer class'''
-        conn = sqlite3.connect(TestTrainerManager.DATABASE_FILE_PATH)
-        c = conn.cursor()
-        c.execute('''DROP TABLE IF EXISTS trainer''')
-        conn.commit()
-        conn.close()
-
-        os.remove(TestTrainerManager.DATABASE_FILE_PATH)
-
         self.logTrainerManager()
+        os.remove(TestTrainerManager.DATABASE_FILE_PATH)
 
     def logTrainerManager(self):
         '''Creates log info inside console'''
@@ -125,10 +119,23 @@ class TestTrainerManager(TestCase):
     def test_valid_get_trainer_by_id(self):
         '''Tests if TrainerManager returns trainer by id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.assertEqual(
-            TestTrainerManager.VALID_GYMLEADER,
-            self.trainer_manager.get_trainer_by_id(
-                TestTrainerManager.ID_PARAMETER))
+        gym_leader = self.trainer_manager.get_trainer_by_id(
+            TestTrainerManager.ID_PARAMETER)
+        self.assertEqual("Brock", gym_leader.name)
+        self.assertEqual(json.dumps({
+            'Golem': 55,
+            'Rellcanth': 54,
+            'Omastar': 56,
+            'Kabutops': 55,
+            'Onix': 61,
+            'Ramparods': 57
+        }), gym_leader.pokemon_team)
+        self.assertEqual(GymLeader.TRAINER_CLASS, gym_leader.trainer_class)
+        self.assertEqual(6840, gym_leader.pokecoins)
+        self.assertEqual("Kanto", gym_leader.location)
+        self.assertEqual("Boulder Badge", gym_leader.badge)
+        self.assertEqual("Rock", gym_leader.element)
+        self.assertEqual("HM10", gym_leader.prize)
 
     def test_invalid_get_trainer_by_id(self):
         '''Tests if get_trainer_by_id rejects invalid parameters'''
@@ -148,15 +155,42 @@ class TestTrainerManager(TestCase):
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         get_all_object = self.trainer_manager.get_all()
         self.assertEqual(2, len(self.trainer_manager.get_all()))
-        self.assertEqual(TestTrainerManager.VALID_GYMLEADER, get_all_object[0])
-        self.assertEqual(TestTrainerManager.VALID_TRAINER, get_all_object[1])
+        gym_leader = get_all_object[0]
+
+        gym_leader = self.trainer_manager.get_trainer_by_id(
+            TestTrainerManager.ID_PARAMETER)
+        self.assertEqual("Brock", gym_leader.name)
+        self.assertEqual(json.dumps({
+            'Golem': 55,
+            'Rellcanth': 54,
+            'Omastar': 56,
+            'Kabutops': 55,
+            'Onix': 61,
+            'Ramparods': 57
+        }), gym_leader.pokemon_team)
+        self.assertEqual(GymLeader.TRAINER_CLASS, gym_leader.trainer_class)
+        self.assertEqual(6840, gym_leader.pokecoins)
+        self.assertEqual("Kanto", gym_leader.location)
+        self.assertEqual("Boulder Badge", gym_leader.badge)
+        self.assertEqual("Rock", gym_leader.element)
+        self.assertEqual("HM10", gym_leader.prize)
+
+        regular_trainer = get_all_object[1]
+        self.assertEqual("Tom", regular_trainer.name)
+        self.assertEqual(json.dumps({
+            'Zubat': 21,
+            'Ekans': 23
+        }), regular_trainer.pokemon_team)
+        self.assertEqual("Team Rocket Grunt", regular_trainer.trainer_class)
+        self.assertEqual(540, regular_trainer.pokecoins)
+        self.assertEqual("Johto", regular_trainer.location)
+        self.assertEqual("Walking", regular_trainer.movement_type)
+        self.assertEqual(False, regular_trainer.phone_num)
+        self.assertEqual(True, regular_trainer.have_partner)
 
     def test_valid_get_all_by_type(self):
         '''Tests if TrainerManager returns trainers by type'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         # Store results in variables
         get_all_gym_leader_obj = self.trainer_manager.get_all_by_type(
@@ -164,12 +198,8 @@ class TestTrainerManager(TestCase):
         get_all_trainer_obj = self.trainer_manager.get_all_by_type(
             RegularTrainer.TRAINER_TYPE)
         # Matching results
-        self.assertEqual(3, len(get_all_gym_leader_obj))
-        self.assertEqual(2, len(get_all_trainer_obj))
-        self.assertEqual(TestTrainerManager.VALID_GYMLEADER,
-                         get_all_gym_leader_obj[0])
-        self.assertEqual(TestTrainerManager.VALID_TRAINER,
-                         get_all_trainer_obj[1])
+        self.assertEqual(1, len(get_all_gym_leader_obj))
+        self.assertEqual(1, len(get_all_trainer_obj))
 
     def test_invalid_get_all_by_type(self):
         '''Tests if TrainerManager.get_all_by_type() rejects invalid parameters'''
@@ -189,21 +219,14 @@ class TestTrainerManager(TestCase):
     def test_valid_get_all_by_location(self):
         '''Tests if TrainerManager returns trainers by location'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         # Store results in variables
         get_all_gym_leader_obj = self.trainer_manager.get_all_by_location(
             'Kanto')
         get_all_trainer_obj = self.trainer_manager.get_all_by_location('Johto')
         # Matching results
-        self.assertEqual(3, len(get_all_gym_leader_obj))
-        self.assertEqual(2, len(get_all_trainer_obj))
-        self.assertEqual(TestTrainerManager.VALID_GYMLEADER,
-                         get_all_gym_leader_obj[0])
-        self.assertEqual(TestTrainerManager.VALID_TRAINER,
-                         get_all_trainer_obj[1])
+        self.assertEqual(1, len(get_all_gym_leader_obj))
+        self.assertEqual(1, len(get_all_trainer_obj))
 
     def test_invalid_get_all_by_location(self):
         '''Tests if TrainerManager.get_all_by_location() rejects invalid parameters'''
@@ -234,9 +257,25 @@ class TestTrainerManager(TestCase):
                 'Ramparods': 57
             }, GymLeader.TRAINER_CLASS, 6840, 'Kanto', 'Boulder Badge', 'Rock',
             'HM10')
-        new_gym_leader.id = 0
+        new_gym_leader.id = 1
         self.trainer_manager.update(new_gym_leader)
-        self.assertEqual(new_gym_leader, self.trainer_manager.get_all()[0])
+
+        gym_leader = self.trainer_manager.get_all()[0]
+        self.assertEqual("Twink", gym_leader.name)
+        self.assertEqual(json.dumps({
+            'Golem': 55,
+            'Rellcanth': 54,
+            'Omastar': 56,
+            'Kabutops': 55,
+            'Onix': 61,
+            'Ramparods': 57
+        }), gym_leader.pokemon_team)
+        self.assertEqual(GymLeader.TRAINER_CLASS, gym_leader.trainer_class)
+        self.assertEqual(6840, gym_leader.pokecoins)
+        self.assertEqual("Kanto", gym_leader.location)
+        self.assertEqual("Boulder Badge", gym_leader.badge)
+        self.assertEqual("Rock", gym_leader.element)
+        self.assertEqual("HM10", gym_leader.prize)
 
     def test_invalid_update(self):
         '''Tests if TrainerManager.update() rejects invalid parameters'''
@@ -261,7 +300,7 @@ class TestTrainerManager(TestCase):
         '''Tests if TrainerManager.delete() deletes via id'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
-        self.trainer_manager.delete(0)
+        self.trainer_manager.delete(1)
         self.assertEqual(1, len(self.trainer_manager.get_all()))
 
     def test_invalid_delete(self):
@@ -279,30 +318,26 @@ class TestTrainerManager(TestCase):
         '''Tests if TrainerManager.get_stats() displays correct output'''
         self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
         self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
-        self.trainer_manager.add(TestTrainerManager.VALID_GYMLEADER)
-        self.trainer_manager.add(TestTrainerManager.VALID_TRAINER)
         self.assertTrue(
             isinstance(self.trainer_manager.get_stats(), TrainerStats))
 
         self.assertEqual(
-            3,
+            1,
             self.trainer_manager.get_stats().get_num_regular_trainer())
-        self.assertEqual(3,
+        self.assertEqual(1,
                          self.trainer_manager.get_stats().get_num_gym_leader())
-        self.assertEqual(6,
+        self.assertEqual(2,
                          self.trainer_manager.get_stats().get_num_trainers())
         self.assertEqual(
-            3,
+            1,
             self.trainer_manager.get_stats().get_num_trainer_have_partner())
         self.assertEqual(
             dict,
             type(self.trainer_manager.get_stats().get_num_per_location()))
         self.assertEqual(
             {
-                'Johto': 3,
-                'Kanto': 3
+                'Johto': 1,
+                'Kanto': 1
             },
             self.trainer_manager.get_stats().get_num_per_location())
 

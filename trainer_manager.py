@@ -49,8 +49,7 @@ class TrainerManager(AbstractTrainer):
         session = self._db_session()
         existing_trainer = session.query(RegularTrainer).filter(
             RegularTrainer.trainer_id == id).first()
-        if _abstracttrainer_validator(
-                existing_trainer) and existing_trainer.type == "Gym Leader":
+        if isinstance(existing_trainer, AbstractTrainer) and existing_trainer.type == "Gym Leader":
             existing_trainer = None
         if existing_trainer is None:
             existing_trainer = session.query(GymLeader).filter(
@@ -85,6 +84,7 @@ class TrainerManager(AbstractTrainer):
         if type == 'Gym Leader':
             trainer_query = session.query(GymLeader).filter(
                 GymLeader.type == "Gym Leader").all()
+        session.close()
 
         return trainer_query
 
@@ -198,9 +198,18 @@ class TrainerManager(AbstractTrainer):
 
     def get_stats(self):
         """ Fetches detailed trainer stats """
+        # Retrieve all trainers
         session = self._db_session()
-
-        trainers = session.query(AbstractTrainer).all()
+        trainers = []
+        regular_trainer_list = session.query(RegularTrainer).filter(
+            RegularTrainer.type == "Regular Trainer").all()
+        for trainer in regular_trainer_list:
+            trainers.append(trainer)
+        gym_leader_list = session.query(GymLeader).filter(
+            GymLeader.type == "Gym Leader").all()
+        for trainer in gym_leader_list:
+            trainers.append(trainer)
+        session.close()
 
         num_total_trainers = 0
         num_gym_leaders = 0
