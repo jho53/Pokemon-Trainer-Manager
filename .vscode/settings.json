@@ -10,5 +10,5 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "/Users/joshwong/Documents/GitHub/ACIT2515_Assignment/venv/bin/python3.7"
+    "python.pythonPath": "C:\\Users\\Jimmy\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
 }

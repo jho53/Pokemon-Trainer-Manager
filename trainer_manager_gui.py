@@ -25,37 +25,56 @@ class MainAppController(tk.Frame):
 
         self._view_setting = "all"
 
-        tk.Label(self, text="Trainer Manager", font=("Arial", 26)).grid(
-            row=1, column=5)
+        tk.Label(
+            self, text="Trainer Manager", font=("Arial", 26)).grid(
+                row=1, column=5)
         self._trainers_listbox = tk.Listbox(self, width=60)
         self._trainers_listbox.bind("<Double-Button-1>", self._double_click)
-        self._trainers_listbox.grid(
-            row=2, column=1, columnspan=6)
+        self._trainers_listbox.grid(row=2, column=1, columnspan=6)
 
         self._trainers_stats_listbox = tk.Listbox(self, width=25)
-        self._trainers_stats_listbox.grid(
-            row=2, column=7, columnspan=3)
+        self._trainers_stats_listbox.grid(row=2, column=7, columnspan=3)
 
-        tk.Button(self, text="Show Regular Trainers",
-                  command=self._update_trainer_list_regular_trainers).grid(row=3, column=4)
-        tk.Button(self, text="Show Gym Leaders",
-                  command=self._update_trainer_list_gym_leaders).grid(row=3, column=5)
-        tk.Button(self, text="Show All Trainers",
-                  command=self._update_trainer_list_all).grid(row=3, column=6)
+        tk.Button(
+            self,
+            text="Show Regular Trainers",
+            command=self._update_trainer_list_regular_trainers).grid(
+                row=3, column=4)
+        tk.Button(
+            self,
+            text="Show Gym Leaders",
+            command=self._update_trainer_list_gym_leaders).grid(
+                row=3, column=5)
+        tk.Button(
+            self,
+            text="Show All Trainers",
+            command=self._update_trainer_list_all).grid(
+                row=3, column=6)
 
-        tk.Button(self, text="Add Regular Trainer",
-                  command=self._add_regular_trainer).grid(row=4, column=4)
-        tk.Button(self, text="Add Gym Leader",
-                  command=self._add_gym_leader).grid(row=4, column=5)
-        tk.Button(self, text="Remove Trainer",
-                  command=self._remove_trainer).grid(row=4, column=8)
+        tk.Button(
+            self,
+            text="Add Regular Trainer",
+            command=self._add_regular_trainer).grid(
+                row=4, column=4)
+        tk.Button(
+            self, text="Add Gym Leader", command=self._add_gym_leader).grid(
+                row=4, column=5)
+        tk.Button(
+            self, text="Remove Trainer", command=self._remove_trainer).grid(
+                row=4, column=8)
 
-        tk.Button(self, text="Update Regular Trainer",
-                  command=self._update_regular_trainer).grid(row=5, column=4)
-        tk.Button(self, text="Update Gym Leader",
-                  command=self._update_gym_leader).grid(row=5, column=5)
-        tk.Button(self, text="Quit", command=self._quit_callback).grid(
-            row=5, column=8)
+        tk.Button(
+            self,
+            text="Update Regular Trainer",
+            command=self._update_regular_trainer).grid(
+                row=5, column=4)
+        tk.Button(
+            self, text="Update Gym Leader",
+            command=self._update_gym_leader).grid(
+                row=5, column=5)
+        tk.Button(
+            self, text="Quit", command=self._quit_callback).grid(
+                row=5, column=8)
 
         # load the image file
         image = Image.open("./images/surprised_pikachu.gif")
@@ -64,8 +83,13 @@ class MainAppController(tk.Frame):
         # prevent garbage colleciton
         root.pika = pika
         # create the canvas
-        self._canvas = tk.Canvas(self, width=760, height=420,
-                                 background="white", bd=1, relief=tk.RAISED)
+        self._canvas = tk.Canvas(
+            self,
+            width=760,
+            height=420,
+            background="white",
+            bd=1,
+            relief=tk.RAISED)
         # put gif image on canvas
         self._canvas.create_image(350, 100, image=pika)
         self._canvas.grid(row=6, column=1, columnspan=10)
@@ -96,14 +120,13 @@ class MainAppController(tk.Frame):
     def _add_regular_trainer(self):
         """ Add Trainer Popup """
         self._popup_win = tk.Toplevel()
-        self._popup = AddRegularTrainerPopup(
-            self._popup_win, self._close_add_cb)
+        self._popup = AddRegularTrainerPopup(self._popup_win,
+                                             self._close_add_cb)
 
     def _add_gym_leader(self):
         """ Add Gym Leader Popup """
         self._popup_win = tk.Toplevel()
-        self._popup = AddGymLeaderPopup(
-            self._popup_win, self._close_add_cb)
+        self._popup = AddGymLeaderPopup(self._popup_win, self._close_add_cb)
 
     def _close_add_cb(self):
         """ close Add Trainer Popups """
@@ -119,14 +142,14 @@ class MainAppController(tk.Frame):
     def _update_regular_trainer(self):
         """ Add Gym Leader Popup """
         self._popup_win = tk.Toplevel()
-        self._popup = UpdateRegularTrainerPopup(
-            self._popup_win, self._close_update_cb)
+        self._popup = UpdateRegularTrainerPopup(self._popup_win,
+                                                self._close_update_cb)
 
     def _update_gym_leader(self):
         """ Add Gym Leader Popup """
         self._popup_win = tk.Toplevel()
-        self._popup = UpdateGymLeaderPopup(
-            self._popup_win, self._close_update_cb)
+        self._popup = UpdateGymLeaderPopup(self._popup_win,
+                                           self._close_update_cb)
 
     def _close_update_cb(self):
         """ close Update Trainer Popups """
@@ -142,8 +165,8 @@ class MainAppController(tk.Frame):
     def _remove_trainer(self):
         """ Remove Trainer Popup """
         self._popup_win = tk.Toplevel()
-        self._popup = RemoveTrainerPopup(
-            self._popup_win, self._close_remove_cb)
+        self._popup = RemoveTrainerPopup(self._popup_win,
+                                         self._close_remove_cb)
 
     def _close_remove_cb(self):
         """ close Remove Trainer Popup """
@@ -174,11 +197,13 @@ class MainAppController(tk.Frame):
 
         try:
             self._popup_win = tk.Toplevel()
-            self._popup = ShowDetailsPopup(
-                self._popup_win, self._close_details, data)
-        except:
+            self._popup = ShowDetailsPopup(self._popup_win,
+                                           self._close_details, data)
+        except Exception as e:
             tk.messagebox.showerror(
-                "Error", "Unable to load this trainer's details - Data may be corrupted")
+                "Error",
+                "Unable to load this trainer's details - Data may be corrupted"
+            )
 
     def _close_details(self):
         """ close detail page """
@@ -189,11 +214,12 @@ class MainAppController(tk.Frame):
         self._view_setting = "all"
 
         response = requests.get(
-            "http://127.0.0.1:5000/trainermanager/trainers/all/type/regular_trainer")
+            "http://127.0.0.1:5000/trainermanager/trainers/all/type/regular_trainer"
+        )
 
         if response.status_code != 200:
-            tk.messagebox.showwarning(
-                "Warning", "Could not retrieve the trainers.")
+            tk.messagebox.showwarning("Warning",
+                                      "Could not retrieve the trainers.")
             return
 
         self._trainers_listbox.delete(0, tk.END)
@@ -201,21 +227,24 @@ class MainAppController(tk.Frame):
         trainer_descs = response.json()
         for trainer in trainer_descs:
             trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
-                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+                trainer["trainer_id"], trainer["name"], trainer["location"],
+                trainer["type"])
             self._trainers_listbox.insert(tk.END, trainer_short_description)
 
         response = requests.get(
-            "http://127.0.0.1:5000/trainermanager/trainers/all/type/gym_leader")
+            "http://127.0.0.1:5000/trainermanager/trainers/all/type/gym_leader"
+        )
 
         if response.status_code != 200:
-            tk.messagebox.showwarning(
-                "Warning", "Could not retrieve the trainers.")
+            tk.messagebox.showwarning("Warning",
+                                      "Could not retrieve the trainers.")
             return
 
         gym_leader_descs = response.json()
         for trainer in gym_leader_descs:
             trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
-                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+                trainer["trainer_id"], trainer["name"], trainer["location"],
+                trainer["type"])
             self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _update_trainer_list_regular_trainers(self):
@@ -224,11 +253,12 @@ class MainAppController(tk.Frame):
         self._view_setting = "regular_trainers"
 
         response = requests.get(
-            "http://127.0.0.1:5000/trainermanager/trainers/all/type/regular_trainer")
+            "http://127.0.0.1:5000/trainermanager/trainers/all/type/regular_trainer"
+        )
 
         if response.status_code != 200:
-            tk.messagebox.showwarning(
-                "Warning", "Could not retrieve the trainers.")
+            tk.messagebox.showwarning("Warning",
+                                      "Could not retrieve the trainers.")
             return
 
         self._trainers_listbox.delete(0, tk.END)
@@ -236,7 +266,8 @@ class MainAppController(tk.Frame):
         trainer_descs = response.json()
         for trainer in trainer_descs:
             trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
-                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+                trainer["trainer_id"], trainer["name"], trainer["location"],
+                trainer["type"])
             self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _update_trainer_list_gym_leaders(self):
@@ -245,11 +276,12 @@ class MainAppController(tk.Frame):
         self._view_setting = "gym_leaders"
 
         response = requests.get(
-            "http://127.0.0.1:5000/trainermanager/trainers/all/type/gym_leader")
+            "http://127.0.0.1:5000/trainermanager/trainers/all/type/gym_leader"
+        )
 
         if response.status_code != 200:
-            tk.messagebox.showwarning(
-                "Warning", "Could not retrieve the trainers.")
+            tk.messagebox.showwarning("Warning",
+                                      "Could not retrieve the trainers.")
             return
 
         self._trainers_listbox.delete(0, tk.END)
@@ -257,7 +289,8 @@ class MainAppController(tk.Frame):
         gym_leader_descs = response.json()
         for trainer in gym_leader_descs:
             trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
-                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+                trainer["trainer_id"], trainer["name"], trainer["location"],
+                trainer["type"])
             self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _show_statistics(self):
@@ -266,8 +299,8 @@ class MainAppController(tk.Frame):
             "http://127.0.0.1:5000/trainermanager/trainers/stats")
 
         if response.status_code != 200:
-            tk.messagebox.showwarning(
-                "Warning", "Could not retrieve the trainer stats.")
+            tk.messagebox.showwarning("Warning",
+                                      "Could not retrieve the trainer stats.")
             return
 
         self._trainers_stats_listbox.delete(0, tk.END)
