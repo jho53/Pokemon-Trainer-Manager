@@ -163,14 +163,16 @@ class MainAppController(tk.Frame):
         selection = widget.curselection()
         data = widget.get(selection[0])
 
-        print(data)
+        # extracting trainer id from listbox item
+        trainer_id = re.findall("\d+", data)
 
-        # convert data into json acceptable format
-        json_acceptable_string = data.replace("'", "\"")
+        # getting trainer details by id
+        response = requests.get(
+            "http://127.0.0.1:5000/trainermanager/trainers/" + trainer_id[0])
+
+        data = response.json()
+
         try:
-            data = json.loads(json_acceptable_string)
-            print(data)
-
             self._popup_win = tk.Toplevel()
             self._popup = ShowDetailsPopup(
                 self._popup_win, self._close_details, data)
@@ -198,7 +200,9 @@ class MainAppController(tk.Frame):
 
         trainer_descs = response.json()
         for trainer in trainer_descs:
-            self._trainers_listbox.insert(tk.END, trainer)
+            trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
+                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+            self._trainers_listbox.insert(tk.END, trainer_short_description)
 
         response = requests.get(
             "http://127.0.0.1:5000/trainermanager/trainers/all/type/gym_leader")
@@ -210,7 +214,9 @@ class MainAppController(tk.Frame):
 
         gym_leader_descs = response.json()
         for trainer in gym_leader_descs:
-            self._trainers_listbox.insert(tk.END, trainer)
+            trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
+                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+            self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _update_trainer_list_regular_trainers(self):
         """ Update the List of Trainers  """
@@ -229,7 +235,9 @@ class MainAppController(tk.Frame):
 
         trainer_descs = response.json()
         for trainer in trainer_descs:
-            self._trainers_listbox.insert(tk.END, trainer)
+            trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
+                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+            self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _update_trainer_list_gym_leaders(self):
         """ Update the List of Trainers  """
@@ -248,7 +256,9 @@ class MainAppController(tk.Frame):
 
         gym_leader_descs = response.json()
         for trainer in gym_leader_descs:
-            self._trainers_listbox.insert(tk.END, trainer)
+            trainer_short_description = "Trainer Id: {} | Name: {} | Location: {} | Type: {} ".format(
+                trainer["trainer_id"], trainer["name"], trainer["location"], trainer["type"])
+            self._trainers_listbox.insert(tk.END, trainer_short_description)
 
     def _show_statistics(self):
         """ Get Trainer Stats """
