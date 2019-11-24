@@ -88,7 +88,7 @@ class MainAppController(tk.Frame):
         """ Quit Immediately """
         # jimmy did this OwO
         mixer.init()
-        mixer.music.load("./sounds/pikachu.mp3")
+        mixer.music.load("./sounds/quit.mp3")
         mixer.music.play()
         time.sleep(1)
         self.quit()
