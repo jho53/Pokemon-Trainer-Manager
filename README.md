@@ -5,5 +5,3 @@ ACIT 2515 Assignment - Group 32
 ## Jimbob is a great human.
 
 ### JIMMMAAAAAAAYYYYYYYYYY.
-
-TODO: Fix bug: Checkboxes & Optionmenu

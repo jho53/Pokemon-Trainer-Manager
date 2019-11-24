@@ -70,7 +70,7 @@ class UpdateRegularTrainerPopup(tk.Frame):
         self._movement_type = tk.StringVar()
         self._movement_type.set("Walking")
         tk.OptionMenu(self, self._movement_type, "Walking",
-                      "Biking", "Swimming").grid(row=12, column=2)
+                      "On Bike", "Swimming", "Running").grid(row=12, column=2)
         tk.Label(self, text="Phone Number - Optional").grid(row=13, column=1)
         self._phone_number = tk.BooleanVar()
         tk.Checkbutton(self, text="True", variable=self._phone_number,
