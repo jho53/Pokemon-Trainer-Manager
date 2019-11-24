@@ -6,4 +6,4 @@ ACIT 2515 Assignment - Group 32
 
 ### JIMMMAAAAAAAYYYYYYYYYY.
 
-TODO: Update UML with filepath, read & write methods, to_dict methods
+TODO: Fix bug: Checkboxes & Optionmenu
