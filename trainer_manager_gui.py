@@ -2,6 +2,10 @@ import tkinter as tk
 import requests
 import re
 import ast
+import time
+import json
+
+from pygame import mixer
 from PIL import Image
 
 from add_regular_trainer_popup import AddRegularTrainerPopup
@@ -9,6 +13,7 @@ from add_gym_leader_popup import AddGymLeaderPopup
 from remove_trainer_popup import RemoveTrainerPopup
 from update_gym_leader_popup import UpdateGymLeaderPopup
 from update_regular_trainer_popup import UpdateRegularTrainerPopup
+from show_details_popup import ShowDetailsPopup
 
 
 class MainAppController(tk.Frame):
@@ -23,6 +28,7 @@ class MainAppController(tk.Frame):
         tk.Label(self, text="Trainer Manager", font=("Arial", 26)).grid(
             row=1, column=5)
         self._trainers_listbox = tk.Listbox(self, width=60)
+        self._trainers_listbox.bind("<Double-Button-1>", self._double_click)
         self._trainers_listbox.grid(
             row=2, column=1, columnspan=6)
 
@@ -73,8 +79,18 @@ class MainAppController(tk.Frame):
         if self._view_setting == "gym_leaders":
             self._update_trainer_list_gym_leaders()
 
+        # naughty jimmy did this part OwO
+        mixer.init()
+        mixer.music.load("./sounds/main.mp3")
+        mixer.music.play(-1)
+
     def _quit_callback(self):
         """ Quit Immediately """
+        # jimmy did this OwO
+        mixer.init()
+        mixer.music.load("./sounds/pikachu.mp3")
+        mixer.music.play()
+        time.sleep(1)
         self.quit()
 
     def _add_regular_trainer(self):
@@ -139,6 +155,32 @@ class MainAppController(tk.Frame):
             self._update_trainer_list_regular_trainers()
         if self._view_setting == "gym_leaders":
             self._update_trainer_list_gym_leaders()
+
+    def _double_click(self, event):
+        """ double click to see trainer details popup """
+        # identifying the selected item
+        widget = event.widget
+        selection = widget.curselection()
+        data = widget.get(selection[0])
+
+        print(data)
+
+        # convert data into json acceptable format
+        json_acceptable_string = data.replace("'", "\"")
+        try:
+            data = json.loads(json_acceptable_string)
+            print(data)
+
+            self._popup_win = tk.Toplevel()
+            self._popup = ShowDetailsPopup(
+                self._popup_win, self._close_details, data)
+        except:
+            tk.messagebox.showerror(
+                "Error", "Unable to load this trainer's details - Data may be corrupted")
+
+    def _close_details(self):
+        """ close detail page """
+        self._popup_win.destroy()
 
     def _update_trainer_list_all(self):
         """ Update the List of Trainers  """

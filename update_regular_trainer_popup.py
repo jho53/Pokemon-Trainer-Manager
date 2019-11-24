@@ -109,6 +109,11 @@ class UpdateRegularTrainerPopup(tk.Frame):
 
         # putting the trainer pokemon into a dict
         if self._pokemon1.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon1.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
+
             try:
                 pokemon = self._pokemon1.get()
                 level = int(self._pokemon1_level.get())
@@ -123,6 +128,10 @@ class UpdateRegularTrainerPopup(tk.Frame):
             return
 
         if self._pokemon2.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon2.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
             try:
                 pokemon = self._pokemon2.get()
                 level = int(self._pokemon2_level.get())
@@ -133,6 +142,10 @@ class UpdateRegularTrainerPopup(tk.Frame):
                 return
 
         if self._pokemon3.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon3.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
             try:
                 pokemon = self._pokemon3.get()
                 level = int(self._pokemon3_level.get())
@@ -143,6 +156,10 @@ class UpdateRegularTrainerPopup(tk.Frame):
                 return
 
         if self._pokemon4.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon4.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
             try:
                 pokemon = self._pokemon4.get()
                 level = int(self._pokemon4_level.get())
@@ -153,6 +170,10 @@ class UpdateRegularTrainerPopup(tk.Frame):
                 return
 
         if self._pokemon5.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon5.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
             try:
                 pokemon = self._pokemon5.get()
                 level = int(self._pokemon5_level.get())
@@ -163,6 +184,10 @@ class UpdateRegularTrainerPopup(tk.Frame):
                 return
 
         if self._pokemon6.get() != "":
+            if re.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", self._pokemon6.get()) is None:
+                messagebox.showerror(
+                    "Error", "Pokemon name can only contain letters, numbers, and spaces")
+                return
             try:
                 pokemon = self._pokemon6.get()
                 level = int(self._pokemon6_level.get())
