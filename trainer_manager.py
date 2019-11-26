@@ -36,10 +36,11 @@ class TrainerManager(AbstractTrainer):
         session.commit()
         db_trainer = session.query(AbstractTrainer).order_by(
             AbstractTrainer.trainer_id.desc()).first()
+        trainer_id = db_trainer.trainer_id
 
         session.close()
 
-        return db_trainer.trainer_id
+        return trainer_id
 
     def get_trainer_by_id(self, id):
         """ Gets trainer by trainer id """
@@ -49,7 +50,9 @@ class TrainerManager(AbstractTrainer):
         session = self._db_session()
         existing_trainer = session.query(RegularTrainer).filter(
             RegularTrainer.trainer_id == id).first()
-        if isinstance(existing_trainer, AbstractTrainer) and existing_trainer.type == "Gym Leader":
+        if isinstance(
+                existing_trainer,
+                AbstractTrainer) and existing_trainer.type == "Gym Leader":
             existing_trainer = None
         if existing_trainer is None:
             existing_trainer = session.query(GymLeader).filter(
