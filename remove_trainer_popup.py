@@ -35,14 +35,25 @@ class RemoveTrainerPopup(tk.Frame):
         data = {}
         data['trainer_id'] = self._trainer_id.get()
 
-        # implementation here
-        headers = {"content-type": "application/json"}
-        response = requests.delete("http://127.0.0.1:5000/trainermanager/trainers/" + str(data['trainer_id']),
-                                   json=data, headers=headers)
+        if self._confirm_box() == True:
+            # implementation here
+            headers = {"content-type": "application/json"}
+            response = requests.delete("http://127.0.0.1:5000/trainermanager/trainers/" + str(data['trainer_id']),
+                                       json=data, headers=headers)
 
-        if response.status_code == 200:
-            messagebox.showinfo(
-                "Success", "Trainer has been sucessfully removed")
-            self._close_cb()
+            if response.status_code == 200:
+                messagebox.showinfo(
+                    "Success", "Trainer has been sucessfully removed")
+                self._close_cb()
+            else:
+                messagebox.showwarning(
+                    "Error", "Remove Trainer Request Failed")
+
+    def _confirm_box(self):
+        """ Confirm delete trainer """
+        result = tk.messagebox.askquestion(
+            "Delete", "Are You Sure?", icon='warning')
+        if result == "yes":
+            return True
         else:
-            messagebox.showwarning("Error", "Remove Trainer Request Failed")
+            return False

@@ -10,5 +10,5 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "C:\\Users\\Jimmy\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
+    "python.pythonPath": "venv/bin/python"
 }
